@@ -93,8 +93,6 @@ println!("SOL: {}", wallet.solana_address());
 | **Phase 9** | DAO Governance Module | 📋 Planned |
 | **Phase 10** | Beta Release | 📋 Planned |
 
-*See [ROADMAP.md](ROADMAP.md) for detailed timeline.*
-
 ---
 
 ## 📁 Project Structure
