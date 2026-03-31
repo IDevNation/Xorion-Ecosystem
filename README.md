@@ -2,9 +2,10 @@
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Rust](https://img.shields.io/badge/rust-1.70%2B-orange.svg)
-![Status](https://img.shields.io/badge/status-production%20ready-brightgreen.svg)
+![Status](https://img.shields.io/badge/status-beta-blue.svg)
 ![Tests](https://img.shields.io/badge/tests-229%20passing-brightgreen.svg)
-![Version](https://img.shields.io/badge/version-v1.0.0--beta-blue.svg)
+![Version](https://img.shields.io/badge/version-v1.0.0--beta.1-blue.svg)
+![Release](https://img.shields.io/github/v/release/IDevNation/xorion-web3-os?include_prereleases&label=release)
 
 > **The Web3-Native Operating System** — Built in Rust. Web3 at the kernel level.
 
@@ -105,6 +106,27 @@ Xorion is a decentralized operating system where blockchain primitives live at t
 
 ---
 
+## Installation
+
+### From source
+
+```bash
+git clone https://github.com/IDevNation/xorion-web3-os.git
+cd xorion-web3-os
+cargo build --workspace
+```
+
+### As a dependency
+
+Add to your `Cargo.toml`:
+
+```toml
+[dependencies]
+xorion-wallet-sdk = { git = "https://github.com/IDevNation/xorion-web3-os.git", tag = "v1.0.0-beta.1" }
+```
+
+---
+
 ## Quick Start
 
 ### Prerequisites
@@ -114,14 +136,10 @@ Xorion is a decentralized operating system where blockchain primitives live at t
 ### Commands
 
 ```bash
-# Clone
-git clone https://github.com/IDevNation/xorion-web3-os.git
-cd xorion-web3-os
-
 # Build entire workspace
 cargo build --workspace
 
-# Test (52 tests)
+# Test (229 tests)
 cargo test --workspace
 
 # Run GUI
@@ -260,4 +278,4 @@ MIT License — see [LICENSE](LICENSE)
 
 **Made with ❤️ for the decentralized web** 🌌
 
-*10 phases complete | 229 tests passing | v1.0.0-beta released*
+*10 phases complete | 229 tests passing | v1.0.0-beta.1 released*
