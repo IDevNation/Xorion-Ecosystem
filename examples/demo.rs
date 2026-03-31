@@ -1,4 +1,4 @@
-use xorion_wallet_sdk::Wallet;
+use xorion_sdk::Wallet;
 
 fn main() {
     // Well-known BIP-39 test mnemonic — NEVER use this for real funds.

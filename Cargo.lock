@@ -7143,6 +7143,25 @@ dependencies = [
 ]
 
 [[package]]
+name = "xorion-core"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "hex",
+ "reqwest 0.11.27",
+ "serde",
+ "serde_json",
+ "sha3",
+ "tempfile",
+ "thiserror",
+ "tokio",
+ "tracing",
+ "tracing-subscriber 0.3.23",
+ "wasmtime",
+ "xorion-sdk",
+]
+
+[[package]]
 name = "xorion-governance"
 version = "0.1.0"
 dependencies = [
@@ -7153,7 +7172,7 @@ dependencies = [
  "tempfile",
  "thiserror",
  "tracing",
- "xorion-wallet-sdk",
+ "xorion-sdk",
 ]
 
 [[package]]
@@ -7166,11 +7185,72 @@ dependencies = [
  "serde",
  "serde_json",
  "tokio",
- "xorion-wallet-sdk",
+ "xorion-sdk",
 ]
 
 [[package]]
-name = "xorion-privacy"
+name = "xorion-ipfs"
+version = "0.1.0"
+dependencies = [
+ "aes-gcm",
+ "argon2",
+ "async-trait",
+ "hex",
+ "rand 0.8.5",
+ "reqwest 0.11.27",
+ "serde",
+ "serde_json",
+ "sha3",
+ "tempfile",
+ "thiserror",
+ "tokio",
+ "tracing",
+ "xorion-sdk",
+ "zeroize",
+]
+
+[[package]]
+name = "xorion-scheme"
+version = "0.1.0"
+dependencies = [
+ "env_logger",
+ "hex",
+ "log",
+ "redox_syscall 0.4.1",
+ "serde",
+ "serde_json",
+ "sha3",
+ "thiserror",
+ "xorion-sdk",
+]
+
+[[package]]
+name = "xorion-sdk"
+version = "0.4.0"
+dependencies = [
+ "async-trait",
+ "bip32",
+ "bip39",
+ "ethabi",
+ "hex",
+ "reqwest 0.11.27",
+ "secp256k1 0.28.2",
+ "serde",
+ "serde_json",
+ "sha3",
+ "tempfile",
+ "thiserror",
+ "tiny-keccak",
+ "tokio",
+ "xorion-core",
+ "xorion-governance",
+ "xorion-ipfs",
+ "xorion-zk",
+ "zeroize",
+]
+
+[[package]]
+name = "xorion-zk"
 version = "0.1.0"
 dependencies = [
  "ark-bn254",
@@ -7188,87 +7268,7 @@ dependencies = [
  "tempfile",
  "thiserror",
  "tracing",
- "xorion-wallet-sdk",
-]
-
-[[package]]
-name = "xorion-runtime"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "hex",
- "reqwest 0.11.27",
- "serde",
- "serde_json",
- "sha3",
- "tempfile",
- "thiserror",
- "tokio",
- "tracing",
- "tracing-subscriber 0.3.23",
- "wasmtime",
- "xorion-wallet-sdk",
-]
-
-[[package]]
-name = "xorion-scheme"
-version = "0.1.0"
-dependencies = [
- "env_logger",
- "hex",
- "log",
- "redox_syscall 0.4.1",
- "serde",
- "serde_json",
- "sha3",
- "thiserror",
- "xorion-wallet-sdk",
-]
-
-[[package]]
-name = "xorion-storage"
-version = "0.1.0"
-dependencies = [
- "aes-gcm",
- "argon2",
- "async-trait",
- "hex",
- "rand 0.8.5",
- "reqwest 0.11.27",
- "serde",
- "serde_json",
- "sha3",
- "tempfile",
- "thiserror",
- "tokio",
- "tracing",
- "xorion-wallet-sdk",
- "zeroize",
-]
-
-[[package]]
-name = "xorion-wallet-sdk"
-version = "0.4.0"
-dependencies = [
- "async-trait",
- "bip32",
- "bip39",
- "ethabi",
- "hex",
- "reqwest 0.11.27",
- "secp256k1 0.28.2",
- "serde",
- "serde_json",
- "sha3",
- "tempfile",
- "thiserror",
- "tiny-keccak",
- "tokio",
- "xorion-governance",
- "xorion-privacy",
- "xorion-runtime",
- "xorion-storage",
- "zeroize",
+ "xorion-sdk",
 ]
 
 [[package]]

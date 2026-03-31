@@ -7,7 +7,7 @@
 use std::sync::{Arc, Mutex};
 use tracing::debug;
 use wasmtime::{Caller, Linker};
-use xorion_wallet_sdk::Wallet;
+use xorion_sdk::Wallet;
 
 /// Shared state passed to host functions via the wasmtime Store.
 #[derive(Clone)]

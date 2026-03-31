@@ -1,5 +1,5 @@
 use std::time::Duration;
-use xorion_runtime::{IpfsLoader, Permission, Sandbox, SandboxError, WalletBridge, WasmRuntime};
+use xorion_core::{IpfsLoader, Permission, Sandbox, SandboxError, WalletBridge, WasmRuntime};
 
 const TEST_MNEMONIC: &str =
     "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about";

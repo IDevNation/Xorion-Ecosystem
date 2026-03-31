@@ -5,7 +5,7 @@
 //! Phase 6 (WASM Runtime) -> Phase 7 (ZK Privacy) ->
 //! Phase 8 (IPFS Storage) -> Phase 9 (DAO Governance)
 
-use xorion_wallet_sdk::Wallet;
+use xorion_sdk::Wallet;
 
 const MNEMONIC: &str =
     "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about";
@@ -38,8 +38,8 @@ fn wallet_derives_both_chains() {
 
 #[test]
 fn rpc_providers_construct() {
-    use xorion_wallet_sdk::rpc::ethereum::EthereumProvider;
-    use xorion_wallet_sdk::rpc::solana::SolanaProvider;
+    use xorion_sdk::rpc::ethereum::EthereumProvider;
+    use xorion_sdk::rpc::solana::SolanaProvider;
 
     let _eth = EthereumProvider::new("https://eth.llamarpc.com");
     let _sol = SolanaProvider::new("https://api.mainnet-beta.solana.com");
@@ -49,7 +49,7 @@ fn rpc_providers_construct() {
 
 #[test]
 fn contract_abi_encoding() {
-    use xorion_wallet_sdk::contract::abi;
+    use xorion_sdk::contract::abi;
 
     let selector = abi::function_selector("transfer(address,uint256)");
     assert_eq!(selector.len(), 4);
@@ -62,7 +62,7 @@ fn contract_abi_encoding() {
 
 #[test]
 fn wasm_runtime_with_wallet() {
-    use xorion_runtime::{Permission, WasmRuntime};
+    use xorion_core::{Permission, WasmRuntime};
 
     let mut rt = WasmRuntime::new().unwrap();
     rt.init_wallet(MNEMONIC).unwrap();
@@ -74,7 +74,7 @@ fn wasm_runtime_with_wallet() {
 
 #[test]
 fn wasm_runtime_load_and_execute() {
-    use xorion_runtime::WasmRuntime;
+    use xorion_core::WasmRuntime;
 
     // Minimal WASM: (module (func (export "_start")))
     const MINIMAL_WASM: &[u8] = &[
@@ -94,7 +94,7 @@ fn wasm_runtime_load_and_execute() {
 
 #[test]
 fn zk_private_transaction_proof() {
-    use xorion_privacy::ProofSystem;
+    use xorion_zk::ProofSystem;
 
     let (pk, vk) = ProofSystem::setup_private_tx().unwrap();
     let (proof, inputs) = ProofSystem::prove_private_tx(&pk, 10_000, 500).unwrap();
@@ -103,7 +103,7 @@ fn zk_private_transaction_proof() {
 
 #[test]
 fn zk_age_verification_proof() {
-    use xorion_privacy::ProofSystem;
+    use xorion_zk::ProofSystem;
 
     let (pk, vk) = ProofSystem::setup_age_verification().unwrap();
     let (proof, inputs) = ProofSystem::prove_age(&pk, 1990, 2026, 18).unwrap();
@@ -112,7 +112,7 @@ fn zk_age_verification_proof() {
 
 #[test]
 fn zk_balance_proof() {
-    use xorion_privacy::ProofSystem;
+    use xorion_zk::ProofSystem;
 
     let (pk, vk) = ProofSystem::setup_balance_proof().unwrap();
     let (proof, inputs) = ProofSystem::prove_balance(&pk, 50_000, 1_000).unwrap();
@@ -123,7 +123,7 @@ fn zk_balance_proof() {
 
 #[test]
 fn ipfs_encrypted_storage_roundtrip() {
-    use xorion_storage::{Encryption, VirtualFs};
+    use xorion_ipfs::{Encryption, VirtualFs};
 
     let enc = Encryption::from_password("xorion_beta", b"betasalt1234salt").unwrap();
 
@@ -141,7 +141,7 @@ fn ipfs_encrypted_storage_roundtrip() {
 
 #[test]
 fn ipfs_cache_and_pinning() {
-    use xorion_storage::{FileCache, PinningService};
+    use xorion_ipfs::{FileCache, PinningService};
 
     let tmp = tempfile::TempDir::new().unwrap();
     let mut cache = FileCache::new(tmp.path(), 1_000_000).unwrap();
@@ -206,8 +206,8 @@ fn dao_full_governance_flow() {
 
 #[test]
 fn wallet_powers_wasm_and_zk() {
-    use xorion_privacy::ProofSystem;
-    use xorion_runtime::WasmRuntime;
+    use xorion_zk::ProofSystem;
+    use xorion_core::WasmRuntime;
 
     // Wallet creates addresses
     let wallet = Wallet::from_mnemonic(MNEMONIC).unwrap();
@@ -229,7 +229,7 @@ fn wallet_powers_wasm_and_zk() {
 #[test]
 fn governance_controls_storage() {
     use xorion_governance::{Proposal, ProposalParams, ProposalState, VoteType};
-    use xorion_storage::VirtualFs;
+    use xorion_ipfs::VirtualFs;
 
     // Governance approves file storage
     let mut proposal = Proposal::new(

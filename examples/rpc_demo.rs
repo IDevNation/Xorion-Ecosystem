@@ -1,6 +1,6 @@
-use xorion_wallet_sdk::rpc::ethereum::EthereumProvider;
-use xorion_wallet_sdk::rpc::solana::SolanaProvider;
-use xorion_wallet_sdk::ChainProvider;
+use xorion_sdk::rpc::ethereum::EthereumProvider;
+use xorion_sdk::rpc::solana::SolanaProvider;
+use xorion_sdk::ChainProvider;
 
 #[tokio::main]
 async fn main() {

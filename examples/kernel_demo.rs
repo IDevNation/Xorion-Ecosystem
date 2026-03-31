@@ -1,4 +1,4 @@
-use xorion_wallet_sdk::kernel::{WalletClient, CHAIN_ETHEREUM, CHAIN_SOLANA};
+use xorion_sdk::kernel::{WalletClient, CHAIN_ETHEREUM, CHAIN_SOLANA};
 
 /// Demonstrates the kernel-style wallet API.
 ///

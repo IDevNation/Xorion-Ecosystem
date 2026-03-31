@@ -1,6 +1,6 @@
 //! Example: Xorion IPFS Storage demo.
 
-use xorion_storage::{Encryption, FileCache, PinningService, VirtualFs};
+use xorion_ipfs::{Encryption, FileCache, PinningService, VirtualFs};
 
 fn main() {
     println!("=== Xorion IPFS Storage Demo ===\n");

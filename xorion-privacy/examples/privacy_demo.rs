@@ -1,6 +1,6 @@
 //! Example: Xorion zk-SNARKs Privacy Layer demo.
 
-use xorion_privacy::ProofSystem;
+use xorion_zk::ProofSystem;
 
 fn main() {
     println!("=== Xorion zk-SNARKs Privacy Demo ===\n");

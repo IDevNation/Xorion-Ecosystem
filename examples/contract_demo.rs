@@ -1,7 +1,7 @@
-use xorion_wallet_sdk::contract::abi;
-use xorion_wallet_sdk::contract::erc20::Erc20;
-use xorion_wallet_sdk::contract::defi::UniswapV2Router;
-use xorion_wallet_sdk::rpc::ethereum::EthereumProvider;
+use xorion_sdk::contract::abi;
+use xorion_sdk::contract::erc20::Erc20;
+use xorion_sdk::contract::defi::UniswapV2Router;
+use xorion_sdk::rpc::ethereum::EthereumProvider;
 
 // Well-known mainnet addresses
 const USDC: &str = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48";

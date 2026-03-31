@@ -8,7 +8,7 @@
 //! # Usage
 //!
 //! ```no_run
-//! use xorion_wallet_sdk::kernel::WalletClient;
+//! use xorion_sdk::kernel::WalletClient;
 //!
 //! let mut client = WalletClient::connect().unwrap();
 //! client.wallet_init("abandon abandon ... about").unwrap();

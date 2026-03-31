@@ -1,6 +1,6 @@
 //! Example: Xorion WASM dApp Runtime demo.
 
-use xorion_runtime::{Permission, WasmRuntime};
+use xorion_core::{Permission, WasmRuntime};
 
 fn main() -> anyhow::Result<()> {
     println!("=== Xorion WASM Runtime Demo ===\n");

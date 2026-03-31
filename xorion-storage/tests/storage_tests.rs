@@ -1,6 +1,6 @@
 use std::time::Duration;
 use tempfile::TempDir;
-use xorion_storage::{Encryption, FileCache, IpfsClient, PinningService, VirtualFs};
+use xorion_ipfs::{Encryption, FileCache, IpfsClient, PinningService, VirtualFs};
 
 // ── Encryption integration tests ──────────────────────────
 

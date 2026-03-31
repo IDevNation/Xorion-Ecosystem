@@ -348,7 +348,7 @@ fn App() -> Element {
     // Initialize wallet on first render
     let _init = use_resource(move || async move {
         let mnemonic = "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about";
-        match xorion_wallet_sdk::Wallet::from_mnemonic(mnemonic) {
+        match xorion_sdk::Wallet::from_mnemonic(mnemonic) {
             Ok(wallet) => {
                 if let Ok(addr) = wallet.derive_eth_address() {
                     eth_address.set(addr);
