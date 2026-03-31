@@ -1,4 +1,4 @@
-# Xorion Web3 OS
+# Xorion Web3 SDK
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Rust](https://img.shields.io/badge/rust-1.70%2B-orange.svg)
@@ -164,27 +164,16 @@ cargo run --example contract_demo     # Smart contracts
 cargo run --example kernel_demo       # Full demo
 ```
 
-### Code Example
+### Quick Start Example
 
 ```rust
-use xorion_wallet_sdk::{Wallet, ChainProvider};
-use xorion_wallet_sdk::rpc::ethereum::EthereumProvider;
-use xorion_wallet_sdk::contract::erc20::Erc20;
+use xorion_sdk::Wallet;
 
-// Create wallet from mnemonic
-let wallet = Wallet::from_mnemonic("your 12/24 word mnemonic")?;
-println!("ETH: {}", wallet.derive_eth_address()?);
-println!("SOL: {}", wallet.derive_solana_address()?);
-
-// Query blockchain
-let provider = EthereumProvider::new("https://eth.llamarpc.com");
-let block = provider.get_block_number().await?;
-let balance = provider.get_balance("0x...").await?;
-
-// Interact with ERC-20 tokens
-let usdc = Erc20::new("0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", provider);
-let name = usdc.name().await?;
-let bal = usdc.balance_of("0x...").await?;
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let wallet = Wallet::new("ethereum").await?;
+    println!("Address: {}", wallet.get_address());
+    Ok(())
+}
 ```
 
 ---
