@@ -3,7 +3,7 @@
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Rust](https://img.shields.io/badge/rust-1.70%2B-orange.svg)
 ![Status](https://img.shields.io/badge/status-production%20ready-brightgreen.svg)
-![Tests](https://img.shields.io/badge/tests-52%20passing-brightgreen.svg)
+![Tests](https://img.shields.io/badge/tests-107%20passing-brightgreen.svg)
 
 > **The Web3-Native Operating System** — Built in Rust. Web3 at the kernel level.
 
@@ -27,7 +27,7 @@ Xorion is a decentralized operating system where blockchain primitives live at t
 | 🏗️ **Redox Scheme** | wallet:/ filesystem daemon | ✅ Complete |
 | 🎨 **Desktop GUI** | Dioxus-based wallet interface | ✅ Complete |
 | 🧩 **WASM Runtime** | Wasmtime sandbox, wallet bridge, IPFS loader | ✅ Complete |
-| 🤫 **ZK Privacy** | zk-SNARKs at OS level | 📋 Planned |
+| 🤫 **ZK Privacy** | Groth16 zk-SNARKs — private tx, age verify, balance proofs | ✅ Complete |
 | 📦 **IPFS Storage** | Decentralized filesystem | 📋 Planned |
 
 ---
@@ -42,12 +42,12 @@ Xorion is a decentralized operating system where blockchain primitives live at t
 | **Phase 4** | Redox Scheme Daemon (wallet:/) | ✅ Complete | 10 |
 | **Phase 5** | Desktop GUI (Dioxus) | ✅ Complete | 3 |
 | **Phase 6** | WASM dApp Runtime (Wasmtime) | ✅ Complete | 33 |
-| **Phase 7** | zk-SNARKs Privacy Layer | 📋 Planned | - |
+| **Phase 7** | zk-SNARKs Privacy Layer (Groth16) | ✅ Complete | 38 |
 | **Phase 8** | IPFS Native Filesystem | 📋 Planned | - |
 | **Phase 9** | DAO Governance Module | 📋 Planned | - |
 | **Phase 10** | Beta Release | 📋 Planned | - |
 
-**✅ Total Tests: 52/52 Passing**
+**✅ Total Tests: 107/107 Passing**
 
 ---
 
@@ -58,6 +58,12 @@ Xorion is a decentralized operating system where blockchain primitives live at t
 │              XORION WEB3 OS - FULL STACK                    │
 ├─────────────────────────────────────────────────────────────┤
 │                                                              │
+│  ┌────────────────────────────────────────────────────┐    │
+│  ┌────────────────────────────────────────────────────┐    │
+│  │         ZK Privacy (Groth16) — Phase 7             │    │
+│  │    PrivateTx │ AgeVerify │ BalanceProof            │    │
+│  └────────────────────────────────────────────────────┘    │
+│                           ⬇️                                │
 │  ┌────────────────────────────────────────────────────┐    │
 │  │         WASM Runtime (Wasmtime) — Phase 6          │    │
 │  │    Sandbox │ WalletBridge │ IPFS Loader            │    │
@@ -112,6 +118,9 @@ cargo run -p xorion-gui
 
 # Run WASM runtime demo
 cargo run -p xorion-runtime --example simple_dapp
+
+# Run ZK privacy demo
+cargo run -p xorion-privacy --example privacy_demo
 
 # Run examples
 cargo run --example demo              # Wallet creation
@@ -177,6 +186,15 @@ xorion-web3-os/
 │       ├── api.rs              # WalletBridge host functions
 │       └── ipfs_loader.rs      # IPFS dApp fetcher
 │
+├── xorion-privacy/             # Phase 7: zk-SNARKs Privacy
+│   └── src/
+│       ├── circuits/
+│       │   ├── private_tx.rs   # Private transaction circuit
+│       │   ├── age_verify.rs   # Age verification circuit
+│       │   └── balance_proof.rs# Balance proof circuit
+│       ├── proof.rs            # Groth16 ProofSystem
+│       └── cache.rs            # Proof caching with TTL
+│
 ├── examples/                   # Demo applications
 └── Cargo.toml                  # Workspace
 ```
@@ -192,7 +210,7 @@ Phase 3: ████████████████████ 100% ✅
 Phase 4: ████████████████████ 100% ✅
 Phase 5: ████████████████████ 100% ✅
 Phase 6: ████████████████████ 100% ✅
-Phase 7: ░░░░░░░░░░░░░░░░░░░░ 0% 📋
+Phase 7: ████████████████████ 100% ✅
 Phase 8: ░░░░░░░░░░░░░░░░░░░░ 0% 📋
 Phase 9: ░░░░░░░░░░░░░░░░░░░░ 0% 📋
 Phase 10:░░░░░░░░░░░░░░░░░░░░ 0% 📋
@@ -208,4 +226,4 @@ MIT License — see [LICENSE](LICENSE)
 
 **Made with ❤️ for the decentralized web** 🌌
 
-*6 phases complete | 52 tests passing | Production ready*
+*7 phases complete | 107 tests passing | Production ready*
