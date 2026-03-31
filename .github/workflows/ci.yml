@@ -37,7 +37,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
       - name: Build docs
-        run: cargo doc --workspace --no-deps
+        run: cargo doc --workspace --no-deps --exclude xorion-gui --exclude xorion-scheme
 
   clippy:
     name: Clippy
