@@ -1,9 +1,9 @@
-# 🌌 Xorion Web3 OS
+# Xorion Web3 OS
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Rust](https://img.shields.io/badge/rust-1.70%2B-orange.svg)
 ![Status](https://img.shields.io/badge/status-production%20ready-brightgreen.svg)
-![Tests](https://img.shields.io/badge/tests-36%20passing-brightgreen.svg)
+![Tests](https://img.shields.io/badge/tests-52%20passing-brightgreen.svg)
 
 > **The Web3-Native Operating System** — Built in Rust. Web3 at the kernel level.
 
@@ -26,7 +26,7 @@ Xorion is a decentralized operating system where blockchain primitives live at t
 | 🔄 **DeFi Protocols** | Uniswap, Aave integration | ✅ Complete |
 | 🏗️ **Redox Scheme** | wallet:/ filesystem daemon | ✅ Complete |
 | 🎨 **Desktop GUI** | Dioxus-based wallet interface | ✅ Complete |
-| 🧩 **WASM Runtime** | Native dApp execution | 📋 Planned |
+| 🧩 **WASM Runtime** | Wasmtime sandbox, wallet bridge, IPFS loader | ✅ Complete |
 | 🤫 **ZK Privacy** | zk-SNARKs at OS level | 📋 Planned |
 | 📦 **IPFS Storage** | Decentralized filesystem | 📋 Planned |
 
@@ -41,13 +41,13 @@ Xorion is a decentralized operating system where blockchain primitives live at t
 | **Phase 3** | Smart Contract Interaction (ERC20, Uniswap) | ✅ Complete | 15 |
 | **Phase 4** | Redox Scheme Daemon (wallet:/) | ✅ Complete | 10 |
 | **Phase 5** | Desktop GUI (Dioxus) | ✅ Complete | 3 |
-| **Phase 6** | WASM dApp Runtime | 📋 Planned | - |
+| **Phase 6** | WASM dApp Runtime (Wasmtime) | ✅ Complete | 33 |
 | **Phase 7** | zk-SNARKs Privacy Layer | 📋 Planned | - |
 | **Phase 8** | IPFS Native Filesystem | 📋 Planned | - |
 | **Phase 9** | DAO Governance Module | 📋 Planned | - |
 | **Phase 10** | Beta Release | 📋 Planned | - |
 
-**✅ Total Tests: 36/36 Passing**
+**✅ Total Tests: 52/52 Passing**
 
 ---
 
@@ -58,6 +58,11 @@ Xorion is a decentralized operating system where blockchain primitives live at t
 │              XORION WEB3 OS - FULL STACK                    │
 ├─────────────────────────────────────────────────────────────┤
 │                                                              │
+│  ┌────────────────────────────────────────────────────┐    │
+│  │         WASM Runtime (Wasmtime) — Phase 6          │    │
+│  │    Sandbox │ WalletBridge │ IPFS Loader            │    │
+│  └────────────────────────────────────────────────────┘    │
+│                           ⬇️                                │
 │  ┌────────────────────────────────────────────────────┐    │
 │  │         GUI (Dioxus Desktop) — Phase 5             │    │
 │  │    Dashboard │ Send │ Receive │ Settings           │    │
@@ -83,11 +88,11 @@ Xorion is a decentralized operating system where blockchain primitives live at t
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Rust 1.70 or later
-- For GUI: `sudo apt install libgtk-3-dev libwebkit2gtk-4.0-dev`
+- For GUI: `sudo apt install libgtk-3-dev libwebkit2gtk-4.1-dev libxdo-dev`
 
 ### Commands
 
@@ -96,14 +101,17 @@ Xorion is a decentralized operating system where blockchain primitives live at t
 git clone https://github.com/IDevNation/xorion-web3-os.git
 cd xorion-web3-os
 
-# Build
-cargo build --release
+# Build entire workspace
+cargo build --workspace
 
-# Test (36 tests)
-cargo test
+# Test (52 tests)
+cargo test --workspace
 
 # Run GUI
 cargo run -p xorion-gui
+
+# Run WASM runtime demo
+cargo run -p xorion-runtime --example simple_dapp
 
 # Run examples
 cargo run --example demo              # Wallet creation
@@ -115,11 +123,24 @@ cargo run --example kernel_demo       # Full demo
 ### Code Example
 
 ```rust
-use xorion_sdk::Wallet;
+use xorion_wallet_sdk::{Wallet, ChainProvider};
+use xorion_wallet_sdk::rpc::ethereum::EthereumProvider;
+use xorion_wallet_sdk::contract::erc20::Erc20;
 
+// Create wallet from mnemonic
 let wallet = Wallet::from_mnemonic("your 12/24 word mnemonic")?;
-println!("ETH: {}", wallet.eth_address());
-println!("SOL: {}", wallet.solana_address());
+println!("ETH: {}", wallet.derive_eth_address()?);
+println!("SOL: {}", wallet.derive_solana_address()?);
+
+// Query blockchain
+let provider = EthereumProvider::new("https://eth.llamarpc.com");
+let block = provider.get_block_number().await?;
+let balance = provider.get_balance("0x...").await?;
+
+// Interact with ERC-20 tokens
+let usdc = Erc20::new("0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", provider);
+let name = usdc.name().await?;
+let bal = usdc.balance_of("0x...").await?;
 ```
 
 ---
@@ -128,35 +149,36 @@ println!("SOL: {}", wallet.solana_address());
 
 ```
 xorion-web3-os/
-├── xorion-sdk/           # Phases 1-3: Core SDK
-│   ├── src/
-│   │   ├── wallet.rs     # BIP39, ETH/SOL addresses
-│   │   ├── rpc/          # ETH/SOL RPC clients
-│   │   ├── contract/     # ABI, ERC20, Uniswap
-│   │   └── signing/      # Transaction signing
-│   └── Cargo.toml
+├── src/                        # Phases 1-3: Core SDK
+│   ├── wallet.rs               # BIP39, ETH/SOL addresses
+│   ├── rpc/                    # ETH/SOL RPC clients
+│   ├── contract/               # ABI, ERC20, Uniswap
+│   └── kernel.rs               # WalletClient API
 │
-├── xorion-scheme/        # Phase 4: Redox Scheme Daemon
-│   ├── src/
-│   │   ├── main.rs       # wallet:/ scheme
-│   │   ├── protocol.rs   # JSON wire protocol
-│   │   ├── handler.rs    # Request handler
-│   │   └── keyring.rs    # Encrypted keys
-│   └── Cargo.toml
+├── xorion-scheme/              # Phase 4: Redox Scheme Daemon
+│   └── src/
+│       ├── main.rs             # wallet:/ scheme
+│       ├── protocol.rs         # JSON wire protocol
+│       └── handler.rs          # Request handler
 │
-├── xorion-gui/           # Phase 5: Desktop GUI
-│   ├── src/
-│   │   ├── main.rs       # App shell
-│   │   └── components/
-│   │       ├── dashboard.rs
-│   │       ├── send.rs
-│   │       ├── receive.rs
-│   │       └── settings.rs
-│   └── Cargo.toml
+├── xorion-gui/                 # Phase 5: Desktop GUI
+│   └── src/
+│       ├── main.rs             # App shell
+│       └── components/
+│           ├── dashboard.rs
+│           ├── send.rs
+│           ├── receive.rs
+│           └── settings.rs
 │
-├── examples/             # Demo applications
-├── tests/                # Integration tests
-└── Cargo.toml           # Workspace
+├── xorion-runtime/             # Phase 6: WASM dApp Runtime
+│   └── src/
+│       ├── runtime.rs          # WasmRuntime (wasmtime engine)
+│       ├── sandbox.rs          # Permission-based sandbox
+│       ├── api.rs              # WalletBridge host functions
+│       └── ipfs_loader.rs      # IPFS dApp fetcher
+│
+├── examples/                   # Demo applications
+└── Cargo.toml                  # Workspace
 ```
 
 ---
@@ -169,7 +191,7 @@ Phase 2: ████████████████████ 100% ✅
 Phase 3: ████████████████████ 100% ✅
 Phase 4: ████████████████████ 100% ✅
 Phase 5: ████████████████████ 100% ✅
-Phase 6: ░░░░░░░░░░░░░░░░░░░░ 0% 📋
+Phase 6: ████████████████████ 100% ✅
 Phase 7: ░░░░░░░░░░░░░░░░░░░░ 0% 📋
 Phase 8: ░░░░░░░░░░░░░░░░░░░░ 0% 📋
 Phase 9: ░░░░░░░░░░░░░░░░░░░░ 0% 📋
@@ -180,13 +202,10 @@ Phase 10:░░░░░░░░░░░░░░░░░░░░ 0% 📋
 
 ## 📄 License
 
-MIT License
+MIT License — see [LICENSE](LICENSE)
 
 ---
 
 **Made with ❤️ for the decentralized web** 🌌
 
-*5 phases complete | 36 tests passing | Production ready*
-```
-
-
+*6 phases complete | 52 tests passing | Production ready*
