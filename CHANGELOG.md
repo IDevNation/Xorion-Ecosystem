@@ -2,67 +2,94 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.4.0] - 2026-03-31
+## [1.0.0] - 2026-04-01
 
 ### Added
 
-- **xorion-sdk v0.4.0** — Multi-chain HD wallet SDK
-  - BIP-39 mnemonic generation and recovery
-  - BIP-44 hierarchical deterministic key derivation
-  - Ethereum address derivation (secp256k1 + Keccak-256)
-  - Solana address derivation (Ed25519)
-  - Async JSON-RPC providers for Ethereum and Solana
-  - ABI encoder/decoder for smart contract interaction
-  - ERC-20 and ERC-721 token interfaces
-  - Uniswap V2 router integration
-  - WalletClient unified kernel API
+#### Phase 1: Multi-Chain Wallet Core
+- Initial wallet infrastructure supporting multiple blockchains
+- Mnemonic phrase generation and management
+- Hierarchical Deterministic (HD) key derivation
+- Support for Ethereum and Solana address generation
 
-- **xorion-core v0.1.0** — WASM dApp Runtime
-  - Wasmtime 19 sandboxed execution engine
-  - Permission-based sandbox (network, filesystem, wallet)
-  - WalletBridge host functions for WASM guests
-  - IPFS-based dApp loader
+#### Phase 2: RPC Integration Layer
+- Ethereum JSON-RPC provider implementation
+- Solana RPC client integration
+- Automatic network switching and failover
+- Request batching and caching mechanisms
 
-- **xorion-zk v0.1.0** — zk-SNARKs Privacy Layer
-  - Groth16 proving system on BN254 curve (arkworks)
-  - Private transaction circuit (balance >= amount)
-  - Age verification circuit (age >= threshold)
-  - Balance range proof circuit
-  - Proof serialization and caching with TTL
+#### Phase 3: Smart Contract Integration
+- ERC20 token standard support
+- ERC721 NFT standard support
+- Uniswap V2/V3 protocol integration
+- Contract ABI decoding and encoding utilities
 
-- **xorion-ipfs v0.1.0** — IPFS Storage
-  - IPFS HTTP API client (add, cat, pin)
-  - AES-256-GCM client-side encryption with Argon2id key derivation
-  - Virtual filesystem over IPFS CIDs
-  - Pin management and disk-backed LRU cache
+#### Phase 4: Redox Scheme Implementation
+- Custom Redox transaction scheme design
+- Cross-chain atomic swap functionality
+- Transaction state machine implementation
+- Rollback and recovery mechanisms
 
-- **xorion-governance v0.1.0** — DAO Governance
-  - Proposal lifecycle state machine (Pending -> Active -> Succeeded/Defeated -> Queued -> Executed)
-  - Token-weighted voting (For/Against/Abstain) with quorum
-  - Voting power delegation with circular delegation prevention
-  - Treasury management with spending limits
-  - Timelock execution delay enforcement
-  - OpenZeppelin Governor ABI encoding
+#### Phase 5: GUI Development
+- Native desktop application using Tauri/Electron
+- Real-time balance and transaction monitoring
+- Multi-account management interface
+- Dark/Light theme support
 
-- **xorion-scheme v0.1.0** — Redox OS `wallet:/` scheme daemon
-- **xorion-gui v0.1.0** — Dioxus desktop wallet GUI
-- Cross-crate integration tests (14 tests)
-- GitHub Actions CI/CD (test, docs, clippy, multi-platform release)
+#### Phase 6: WASM Runtime
+- WebAssembly runtime for smart contract execution
+- Sandboxed execution environment
+- Gas metering and resource limits
+- Cross-platform compatibility
 
-### Crates Published
+#### Phase 7: zk-SNARKs Privacy Layer
+- Zero-knowledge proof generation and verification
+- Private transaction construction
+- Shielded pool implementation
+- Privacy-preserving balance proofs
 
-| Crate | Version | crates.io |
-|-------|---------|----------|
-| xorion-sdk | 0.4.0 | [link](https://crates.io/crates/xorion-sdk) |
-| xorion-core | 0.1.0 | [link](https://crates.io/crates/xorion-core) |
-| xorion-governance | 0.1.0 | [link](https://crates.io/crates/xorion-governance) |
-| xorion-ipfs | 0.1.0 | [link](https://crates.io/crates/xorion-ipfs) |
-| xorion-zk | 0.1.0 | [link](https://crates.io/crates/xorion-zk) |
+#### Phase 8: IPFS Distributed Storage
+- IPFS client integration for decentralized storage
+- Encrypted file storage and retrieval
+- Content addressing and pinning services
+- IPFS gateway fallback mechanisms
 
-### Stats
+#### Phase 9: DAO Governance
+- On-chain governance token implementation
+- Proposal creation and voting mechanisms
+- Quadratic voting support
+- Treasury management tools
 
-- 229 tests passing across all crates
-- 10 development phases complete
-- 7 workspace crates
+#### Phase 10: Beta Release
+- Production-ready multi-chain wallet SDK
+- Comprehensive documentation and tutorials
+- Security audit completion
+- Community beta testing program
+
+### Changed
+- Improved transaction signing performance
+- Enhanced error handling across all modules
+- Updated dependencies to latest stable versions
+
+### Fixed
+- Memory leak in WASM runtime
+- Race condition in cross-chain swaps
+- UI rendering issues on high-DPI displays
+
+### Security
+- Implemented constant-time cryptographic operations
+- Added rate limiting to RPC endpoints
+- Enhanced private key protection mechanisms
+
+---
+
+## [Unreleased]
+
+### Planned
+- Additional blockchain support (Bitcoin, Cardano, Polkadot)
+- Mobile applications (iOS and Android)
+- Hardware wallet integration
+- Advanced DeFi features
