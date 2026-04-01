@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features - Xorion</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .features-page {
+            padding-top: 120px;
+        }
+        .feature-detail {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+        .feature-detail h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--accent-primary);
+        }
+        .feature-detail p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+        .feature-list {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+        .feature-list li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        .feature-list li:before {
+            content: "✓ ";
+            color: var(--accent-primary);
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        .phase-badge {
+            display: inline-block;
+            background: var(--accent-primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">⬡</span>
+                <span class="logo-text">Xorion</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="features.html" class="active">Features</a></li>
+                <li><a href="download.html">Download</a></li>
+                <li><a href="docs.html">Docs</a></li>
+                <li><a href="community.html">Community</a></li>
+            </ul>
+            <a href="https://webapp.xorion.io" class="btn btn-primary">Try Web App</a>
+        </div>
+    </nav>
+
+    <main class="features-page">
+        <div class="container">
+            <h1 class="hero-title" style="font-size: 3rem;">Powerful Features</h1>
+            <p class="hero-subtitle">Discover what makes Xorion the most advanced Web3 OS</p>
+
+            <div class="feature-detail">
+                <span class="phase-badge">Phase 1</span>
+                <h2>🔐 Multi-Chain Wallet</h2>
+                <p>A unified wallet interface supporting Ethereum, Solana, Polygon, BSC, Avalanche, and 10+ more blockchains. Manage all your assets from one secure location.</p>
+                <ul class="feature-list">
+                    <li>Single seed phrase for all chains</li>
+                    <li>Automatic network detection</li>
+                    <li>Cross-chain swap functionality</li>
+                    <li>Hardware wallet support (Ledger, Trezor)</li>
+                    <li>Multi-signature wallet creation</li>
+                </ul>
+            </div>
+
+            <div class="feature-detail">
+                <span class="phase-badge">Phase 2</span>
+                <h2>👁️ zk-SNARKs Privacy</h2>
+                <p>Zero-knowledge proof technology ensures your transactions remain completely private while maintaining blockchain verifiability.</p>
+                <ul class="feature-list">
+                    <li>Private transaction mode</li>
+                    <li>ZK-proof generation in WASM</li>
+                    <li>Tornado Cash integration</li>
+                    <li>Privacy-preserving smart contracts</li>
+                    <li>Auditable privacy (optional disclosure)</li>
+                </ul>
+            </div>
+
+            <div class="feature-detail">
+                <span class="phase-badge">Phase 3</span>
+                <h2>📦 IPFS Decentralized Storage</h2>
+                <p>Built-in IPFS client for decentralized file storage. Your files are distributed across the network, ensuring availability and censorship resistance.</p>
+                <ul class="feature-list">
+                    <li>Drag-and-drop file upload</li>
+                    <li>Automatic pinning service</li>
+                    <li>Encrypted file storage</li>
+                    <li>IPNS for mutable references</li>
+                    <li>Gateway access for easy sharing</li>
+                </ul>
+            </div>
+
+            <div class="feature-detail">
+                <span class="phase-badge">Phase 4</span>
+                <h2>⚡ WASM dApp Runtime</h2>
+                <p>Run decentralized applications at native speed with our WebAssembly-based execution environment. No browser needed.</p>
+                <ul class="feature-list">
+                    <li>Sandboxed execution environment</li>
+                    <li>Support for Rust, C++, AssemblyScript</li>
+                    <li>Direct blockchain RPC access</li>
+                    <li>Low-latency performance</li>
+                    <li>Hot-reload development mode</li>
+                </ul>
+            </div>
+
+            <div class="feature-detail">
+                <span class="phase-badge">Phase 5</span>
+                <h2>🏛️ DAO Governance</h2>
+                <p>Community-driven development through decentralized autonomous organization. Vote on features, budget allocation, and project direction.</p>
+                <ul class="feature-list">
+                    <li>Token-based voting system</li>
+                    <li>Proposal submission and discussion</li>
+                    <li>Quadratic voting to prevent whale dominance</li>
+                    <li>Treasury management</li>
+                    <li>Transparent on-chain governance</li>
+                </ul>
+            </div>
+
+            <div class="feature-detail">
+                <span class="phase-badge">Phase 6-10</span>
+                <h2>🦀 Complete Redox OS Integration</h2>
+                <p>Full operating system built on Redox microkernel with Unix-like compatibility, bringing Web3 to the core of your computing experience.</p>
+                <ul class="feature-list">
+                    <li>Native GUI with TIFKWM window manager</li>
+                    <li>POSIX-compatible syscall layer</li>
+                    <li>Package manager (TFS filesystem)</li>
+                    <li>Network stack with TLS support</li>
+                    <li>Driver framework for hardware</li>
+                    <li>Bootable ISO for bare metal</li>
+                    <li>Virtual machine images (QEMU, VirtualBox)</li>
+                    <li>Cross-compilation toolchain</li>
+                    <li>Developer documentation and SDK</li>
+                    <li>Production-ready beta release</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <span class="logo-icon">⬡</span>
+                        <span class="logo-text">Xorion</span>
+                    </a>
+                    <p>The Web3-Native Operating System</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="features.html">Features</a></li>
+                        <li><a href="download.html">Download</a></li>
+                        <li><a href="https://webapp.xorion.io">Web App</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="docs.html">Documentation</a></li>
+                        <li><a href="https://github.com/IDevNation/Xorion-Web3-Beta-Multi-Chain-Wallet-SDK">GitHub</a></li>
+                        <li><a href="community.html">Community</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="https://github.com/IDevNation/Xorion-Web3-Beta-Multi-Chain-Wallet-SDK/blob/main/CODE_OF_CONDUCT.md">Code of Conduct</a></li>
+                        <li><a href="https://github.com/IDevNation/Xorion-Web3-Beta-Multi-Chain-Wallet-SDK/blob/main/SECURITY.md">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Xorion. Open Source under MIT License.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

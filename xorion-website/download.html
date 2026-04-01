@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download - Xorion</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .download-page {
+            padding-top: 120px;
+            min-height: calc(100vh - 60px);
+        }
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        .download-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2.5rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        .download-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-primary);
+            box-shadow: 0 10px 40px rgba(108, 71, 255, 0.2);
+        }
+        .download-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .download-card h3 {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+        }
+        .download-card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+        .download-options {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+        .download-options li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .download-options li:last-child {
+            border-bottom: none;
+        }
+        .version-tag {
+            background: var(--bg-secondary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: var(--accent-primary);
+        }
+        .btn-download {
+            width: 100%;
+            text-align: center;
+        }
+        .crate-list {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+        .crate-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .crate-item:last-child {
+            border-bottom: none;
+        }
+        .crate-name {
+            font-family: 'Courier New', monospace;
+            color: var(--accent-primary);
+        }
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">⬡</span>
+                <span class="logo-text">Xorion</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="features.html">Features</a></li>
+                <li><a href="download.html" class="active">Download</a></li>
+                <li><a href="docs.html">Docs</a></li>
+                <li><a href="community.html">Community</a></li>
+            </ul>
+            <a href="https://webapp.xorion.io" class="btn btn-primary">Try Web App</a>
+        </div>
+    </nav>
+
+    <main class="download-page">
+        <div class="container">
+            <h1 class="hero-title" style="font-size: 3rem;">Download Xorion</h1>
+            <p class="hero-subtitle">Choose the right version for your needs</p>
+
+            <div class="download-grid">
+                <!-- Bootable ISO -->
+                <div class="download-card">
+                    <div class="download-icon">💿</div>
+                    <h3>Bootable ISO</h3>
+                    <p>Complete Xorion OS on a bootable ISO. Install on bare metal or run in a virtual machine.</p>
+                    <ul class="download-options">
+                        <li>
+                            <span>xorion-os-1.0.0.iso</span>
+                            <span class="version-tag">2.1 GB</span>
+                        </li>
+                        <li>
+                            <span>xorion-os-1.0.0-minimal.iso</span>
+                            <span class="version-tag">850 MB</span>
+                        </li>
+                    </ul>
+                    <a href="#" class="btn btn-primary btn-download">Download ISO</a>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                        Works with: QEMU, VirtualBox, VMware, Physical Hardware
+                    </p>
+                </div>
+
+                <!-- Desktop App -->
+                <div class="download-card">
+                    <div class="download-icon">🖥️</div>
+                    <h3>Desktop Application</h3>
+                    <p>Run Xorion as an application on your existing operating system. Full features without installation.</p>
+                    <ul class="download-options">
+                        <li>
+                            <span>Linux (.deb)</span>
+                            <span class="version-tag">v1.0.0</span>
+                        </li>
+                        <li>
+                            <span>macOS (.dmg)</span>
+                            <span class="version-tag">v1.0.0</span>
+                        </li>
+                        <li>
+                            <span>Windows (.exe)</span>
+                            <span class="version-tag">v1.0.0</span>
+                        </li>
+                    </ul>
+                    <a href="#" class="btn btn-primary btn-download">Download for Your OS</a>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                        Supports: Ubuntu 20.04+, macOS 12+, Windows 10+
+                    </p>
+                </div>
+
+                <!-- Crates.io Packages -->
+                <div class="download-card">
+                    <div class="download-icon">🦀</div>
+                    <h3>Rust Crates</h3>
+                    <p>Integrate Xorion components into your Rust projects via crates.io.</p>
+                    <div class="crate-list">
+                        <div class="crate-item">
+                            <span class="crate-name">xorion-sdk</span>
+                            <a href="https://crates.io/crates/xorion-sdk" class="btn btn-outline btn-sm" target="_blank">View</a>
+                        </div>
+                        <div class="crate-item">
+                            <span class="crate-name">xorion-zk</span>
+                            <a href="https://crates.io/crates/xorion-zk" class="btn btn-outline btn-sm" target="_blank">View</a>
+                        </div>
+                        <div class="crate-item">
+                            <span class="crate-name">xorion-wallet</span>
+                            <a href="https://crates.io/crates/xorion-wallet" class="btn btn-outline btn-sm" target="_blank">View</a>
+                        </div>
+                        <div class="crate-item">
+                            <span class="crate-name">xorion-ipfs</span>
+                            <a href="https://crates.io/crates/xorion-ipfs" class="btn btn-outline btn-sm" target="_blank">View</a>
+                        </div>
+                        <div class="crate-item">
+                            <span class="crate-name">xorion-gui</span>
+                            <a href="https://crates.io/crates/xorion-gui" class="btn btn-outline btn-sm" target="_blank">View</a>
+                        </div>
+                    </div>
+                    <div style="margin-top: 1.5rem;">
+                        <code style="background: var(--bg-secondary); padding: 0.75rem; border-radius: 6px; display: block; font-family: 'Courier New', monospace; color: var(--text-secondary);">
+                            cargo add xorion-sdk
+                        </code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Requirements -->
+            <div style="margin-top: 4rem;">
+                <h2 style="text-align: center; margin-bottom: 2rem;">System Requirements</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                    <div style="background: var(--bg-card); padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <h4 style="color: var(--accent-primary); margin-bottom: 1rem;">Minimum (ISO)</h4>
+                        <ul style="list-style: none; color: var(--text-secondary); line-height: 2;">
+                            <li>• Dual-core CPU</li>
+                            <li>• 4 GB RAM</li>
+                            <li>• 20 GB Storage</li>
+                            <li>• UEFI/BIOS Boot</li>
+                        </ul>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <h4 style="color: var(--accent-primary); margin-bottom: 1rem;">Recommended (ISO)</h4>
+                        <ul style="list-style: none; color: var(--text-secondary); line-height: 2;">
+                            <li>• Quad-core CPU</li>
+                            <li>• 8 GB RAM</li>
+                            <li>• 50 GB SSD</li>
+                            <li>• UEFI with Secure Boot</li>
+                        </ul>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <h4 style="color: var(--accent-primary); margin-bottom: 1rem;">Desktop App</h4>
+                        <ul style="list-style: none; color: var(--text-secondary); line-height: 2;">
+                            <li>• Any modern OS</li>
+                            <li>• 2 GB RAM</li>
+                            <li>• 500 MB Storage</li>
+                            <li>• Internet Connection</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <span class="logo-icon">⬡</span>
+                        <span class="logo-text">Xorion</span>
+                    </a>
+                    <p>The Web3-Native Operating System</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="features.html">Features</a></li>
+                        <li><a href="download.html">Download</a></li>
+                        <li><a href="https://webapp.xorion.io">Web App</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="docs.html">Documentation</a></li>
+                        <li><a href="https://github.com/IDevNation/Xorion-Web3-Beta-Multi-Chain-Wallet-SDK">GitHub</a></li>
+                        <li><a href="community.html">Community</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="https://github.com/IDevNation/Xorion-Web3-Beta-Multi-Chain-Wallet-SDK/blob/main/CODE_OF_CONDUCT.md">Code of Conduct</a></li>
+                        <li><a href="https://github.com/IDevNation/Xorion-Web3-Beta-Multi-Chain-Wallet-SDK/blob/main/SECURITY.md">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Xorion. Open Source under MIT License.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
