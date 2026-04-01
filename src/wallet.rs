@@ -6,6 +6,8 @@ use std::fmt;
 use std::str::FromStr;
 use zeroize::Zeroize;
 
+use log::{debug, info};
+
 use crate::error::{Result, WalletError};
 
 /// Derivation path for Ethereum: m/44'/60'/0'/0/0
@@ -33,6 +35,7 @@ impl Wallet {
             ));
         }
 
+        info!("wallet created from mnemonic");
         Ok(Self {
             seed: seed.to_vec(),
             mnemonic_phrase: phrase.to_string(),
@@ -70,6 +73,7 @@ impl Wallet {
         // EIP-55 checksum encoding
         let checksummed = eip55_checksum(&address_hex);
 
+        debug!("derived ETH address: 0x{checksummed}");
         Ok(format!("0x{checksummed}"))
     }
 
@@ -94,7 +98,9 @@ impl Wallet {
         // A production SDK would use ed25519 and base58 — this demonstrates
         // the HD derivation pipeline with the secp256k1 stack.
         let compressed = public_key.serialize();
-        Ok(hex::encode(compressed))
+        let addr = hex::encode(compressed);
+        debug!("derived SOL address: {addr}");
+        Ok(addr)
     }
 
     /// Return the mnemonic phrase (handle with care — sensitive material).

@@ -4,7 +4,7 @@ members = [".", "xorion-scheme", "xorion-gui", "xorion-runtime", "xorion-privacy
 [package]
 name = "xorion-sdk"
 repository = "https://github.com/IDevNation/xorion-web3-os"
-version = "0.4.0"
+version = "1.0.0"
 edition = "2021"
 description = "Multi-chain wallet SDK for Xorion Web3 OS"
 license = "MIT"
@@ -19,6 +19,7 @@ hex = "0.4"
 thiserror = "1.0"
 serde = { version = "1.0", features = ["derive"] }
 zeroize = { version = "1.6", features = ["derive"] }
+log = "0.4"
 
 # Phase 2 — RPC & transaction broadcasting
 tokio = { version = "1.35", features = ["full"] }
@@ -52,3 +53,19 @@ path = "examples/contract_demo.rs"
 [[example]]
 name = "kernel_demo"
 path = "examples/kernel_demo.rs"
+
+[[example]]
+name = "simple_wallet"
+path = "examples/simple_wallet.rs"
+
+[[example]]
+name = "dao_voting"
+path = "examples/dao_voting.rs"
+
+[[example]]
+name = "ipfs_upload"
+path = "examples/ipfs_upload.rs"
+
+[[example]]
+name = "private_transfer"
+path = "examples/private_transfer.rs"

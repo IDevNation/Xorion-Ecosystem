@@ -30,7 +30,7 @@ impl ProofCache {
 
     /// Look up a cached proof by key. Returns `None` if missing or expired.
     pub fn get(&self, key: &str) -> Option<Vec<u8>> {
-        let entries = self.entries.lock().unwrap();
+        let entries = self.entries.lock().expect("proof cache mutex poisoned");
         entries.get(key).and_then(|entry| {
             if entry.created.elapsed() < self.ttl {
                 Some(entry.proof_bytes.clone())
@@ -42,7 +42,7 @@ impl ProofCache {
 
     /// Insert a proof into the cache.
     pub fn insert(&self, key: String, proof_bytes: Vec<u8>) {
-        let mut entries = self.entries.lock().unwrap();
+        let mut entries = self.entries.lock().expect("proof cache mutex poisoned");
         entries.insert(
             key,
             CachedEntry {
@@ -54,7 +54,7 @@ impl ProofCache {
 
     /// Remove all expired entries.
     pub fn evict_expired(&self) -> usize {
-        let mut entries = self.entries.lock().unwrap();
+        let mut entries = self.entries.lock().expect("proof cache mutex poisoned");
         let before = entries.len();
         entries.retain(|_, entry| entry.created.elapsed() < self.ttl);
         before - entries.len()
@@ -62,17 +62,17 @@ impl ProofCache {
 
     /// Return the number of cached entries (including expired).
     pub fn len(&self) -> usize {
-        self.entries.lock().unwrap().len()
+        self.entries.lock().expect("proof cache mutex poisoned").len()
     }
 
     /// Check if the cache is empty.
     pub fn is_empty(&self) -> bool {
-        self.entries.lock().unwrap().is_empty()
+        self.entries.lock().expect("proof cache mutex poisoned").is_empty()
     }
 
     /// Clear all entries.
     pub fn clear(&self) {
-        self.entries.lock().unwrap().clear();
+        self.entries.lock().expect("proof cache mutex poisoned").clear();
     }
 }
 
