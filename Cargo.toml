@@ -1,5 +1,5 @@
 [workspace]
-members = [".", "xos-scheme", "xos-gui", "xos-runtime", "xos-storage", "xos-governance"]
+members = [".", "xos-scheme", "xos-gui", "xos-storage", "xos-governance"]
 
 [package]
 name = "xos-sdk"

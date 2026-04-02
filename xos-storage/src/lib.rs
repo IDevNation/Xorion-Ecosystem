@@ -10,7 +10,7 @@
 //! ## Example
 //!
 //! ```rust
-//! use xorion_ipfs::Encryption;
+//! use xos_storage::Encryption;
 //!
 //! let enc = Encryption::from_password("secret", b"salt_at_least_8b").unwrap();
 //! let ciphertext = enc.encrypt(b"hello world").unwrap();
