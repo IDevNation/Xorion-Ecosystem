@@ -2,11 +2,11 @@
 members = [".", "xos-scheme", "xos-gui", "xos-runtime", "xos-privacy", "xos-storage", "xos-governance"]
 
 [package]
-name = "xorion-sdk"
+name = "xos-sdk"
 repository = "https://github.com/IDevNation/Xorion-Web3-Beta-Multi-Chain-Wallet-SDK"
 version = "1.0.0"
 edition = "2021"
-description = "Multi-chain wallet SDK for X-OS Web3 OS"
+description = "X-OS Web3 SDK — Multi-chain wallet, RPC, smart contracts, privacy, storage"
 license = "MIT"
 
 [dependencies]
@@ -30,3 +30,9 @@ async-trait = "0.1"
 # Phase 3 — smart contract interaction
 ethabi = "18.0"
 tiny-keccak = { version = "2.0", features = ["keccak"] }
+
+# Local crates (for development only)
+xos-privacy = { path = "xos-privacy", optional = true }
+xos-storage = { path = "xos-storage", optional = true }
+xos-runtime = { path = "xos-runtime", optional = true }
+xos-governance = { path = "xos-governance", optional = true }
