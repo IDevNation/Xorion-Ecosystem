@@ -18,8 +18,11 @@
 //! let address = std::str::from_utf8(&buf[..len]).unwrap();
 //! ```
 
-use std::io::{BufRead, BufReader, Write};
+#[cfg(target_family = "unix")]
 use std::os::unix::net::UnixStream;
+
+#[cfg(target_family = "windows")]
+use std::net::TcpStream as UnixStream;
 
 use crate::error::{Result, WalletError};
 
