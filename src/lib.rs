@@ -6,7 +6,7 @@
 //! ## Quick Start
 //!
 //! ```rust
-//! use xorion_sdk::Wallet;
+//! use xos_sdk::Wallet;
 //!
 //! let wallet = Wallet::from_mnemonic(
 //!     "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about"

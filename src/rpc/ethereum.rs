@@ -19,7 +19,7 @@ impl EthereumProvider {
     ///
     /// # Examples
     /// ```no_run
-    /// use xorion_sdk::rpc::ethereum::EthereumProvider;
+    /// use xos_sdk::rpc::ethereum::EthereumProvider;
     /// let provider = EthereumProvider::new("https://eth.llamarpc.com");
     /// ```
     pub fn new(endpoint: &str) -> Self {

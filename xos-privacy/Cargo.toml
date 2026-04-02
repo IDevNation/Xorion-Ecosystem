@@ -1,0 +1,22 @@
+[package] 
+name = "xos-privacy" 
+version = "1.0.0" 
+edition = "2021" 
+description = "X-OS zk-SNARKs Privacy Layer" 
+license = "MIT" 
+ 
+[dependencies] 
+ark-ff = "0.4" 
+ark-bn254 = "0.4" 
+ark-groth16 = "0.4" 
+ark-snark = "0.4" 
+ark-relations = "0.4" 
+ark-serialize = "0.4" 
+ark-std = "0.4" 
+rand = "0.8" 
+sha3 = "0.10" 
+hex = "0.4" 
+thiserror = "1.0" 
+serde = { version = "1.0", features = ["derive"] } 
+serde_json = "1.0" 
+tracing = "0.1" 

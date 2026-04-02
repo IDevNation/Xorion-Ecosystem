@@ -1,27 +1,14 @@
-[package]
-name = "xos-scheme"
-version = "1.0.0"
-edition = "2021"
-description = "X-OS Web3 wallet scheme daemon for Redox OS"
-license = "MIT"
-
-[dependencies]
-# The wallet SDK from Phase 1-3
-xorion-sdk = { version = "1.0.0", path = ".." }
-
-# Serialization
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
-hex = "0.4"
-sha3 = "0.10"
-thiserror = "1.0"
-log = "0.4"
-env_logger = "0.10"
-
-# Redox scheme support — on non-Redox we compile a UNIX socket stub
-# so the daemon can be developed and tested on Linux/macOS.
-[target.'cfg(target_os = "redox")'.dependencies]
-redox_syscall = "0.4"
-
-[target.'cfg(not(target_os = "redox"))'.dependencies]
-# No extra deps — we use a Unix socket stub for development.
+[package] 
+name = "xos-scheme" 
+version = "1.0.0" 
+edition = "2021" 
+description = "X-OS Redox wallet:/ scheme daemon" 
+license = "MIT" 
+ 
+[dependencies] 
+xos-sdk = { version = "1.0.0", path = ".." } 
+serde = { version = "1.0", features = ["derive"] } 
+serde_json = "1.0" 
+tokio = { version = "1.35", features = ["full"] } 
+tracing = "0.1" 
+thiserror = "1.0" 
