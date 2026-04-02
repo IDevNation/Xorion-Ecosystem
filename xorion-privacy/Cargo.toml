@@ -1,5 +1,5 @@
 [package]
-name = "xorion-zk"
+name = "xos-zk"
 version = "1.0.0"
 edition = "2021"
 description = "X-OS zk-SNARKs Privacy Layer — zero-knowledge proofs for private transactions"
