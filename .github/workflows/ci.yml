@@ -57,10 +57,21 @@ jobs:
       - name: Clippy
         run: cargo clippy --workspace -- -D warnings
 
+  audit:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Install cargo-audit
+        run: cargo install cargo-audit
+      - name: Run audit
+        run: cargo audit
+
   release:
     name: Release Build
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: [test, docs, clippy]
+    needs: [test, docs, clippy, audit]
     strategy:
       matrix:
         include:

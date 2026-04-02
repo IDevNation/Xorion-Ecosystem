@@ -52,7 +52,7 @@ impl WalletBridge {
             .derive_solana_address()
             .map_err(|e| format!("SOL derivation failed: {e}"))?;
 
-        let mut state = self.state.inner.lock().unwrap();
+        let mut state = self.state.inner.lock().expect("wallet state mutex poisoned");
         state.eth_address = eth;
         state.sol_address = sol;
         state.initialized = true;
@@ -61,17 +61,17 @@ impl WalletBridge {
 
     /// Whether a wallet has been loaded.
     pub fn is_initialized(&self) -> bool {
-        self.state.inner.lock().unwrap().initialized
+        self.state.inner.lock().expect("wallet state mutex poisoned").initialized
     }
 
     /// Read the cached ETH address.
     pub fn eth_address(&self) -> String {
-        self.state.inner.lock().unwrap().eth_address.clone()
+        self.state.inner.lock().expect("wallet state mutex poisoned").eth_address.clone()
     }
 
     /// Read the cached SOL address.
     pub fn sol_address(&self) -> String {
-        self.state.inner.lock().unwrap().sol_address.clone()
+        self.state.inner.lock().expect("wallet state mutex poisoned").sol_address.clone()
     }
 
     /// Return the bridge state for embedding in a wasmtime `Store`.
@@ -89,7 +89,7 @@ impl WalletBridge {
             "env",
             "wallet_get_chain_address",
             |caller: Caller<'_, BridgeState>, chain: i32| -> i32 {
-                let state = caller.data().inner.lock().unwrap();
+                let state = caller.data().inner.lock().expect("bridge state mutex poisoned");
                 if !state.initialized {
                     debug!("wallet_get_chain_address: not initialized");
                     return -1;
@@ -110,7 +110,7 @@ impl WalletBridge {
             "env",
             "wallet_sign_hash",
             |caller: Caller<'_, BridgeState>, chain: i32, _hash_hi: i64, _hash_lo: i64| -> i32 {
-                let state = caller.data().inner.lock().unwrap();
+                let state = caller.data().inner.lock().expect("bridge state mutex poisoned");
                 if !state.initialized {
                     return -1;
                 }
@@ -128,7 +128,7 @@ impl WalletBridge {
             "env",
             "wallet_status",
             |caller: Caller<'_, BridgeState>| -> i32 {
-                let state = caller.data().inner.lock().unwrap();
+                let state = caller.data().inner.lock().expect("bridge state mutex poisoned");
                 i32::from(state.initialized)
             },
         )?;

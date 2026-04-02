@@ -3,7 +3,7 @@ members = [".", "xorion-scheme", "xorion-gui", "xorion-runtime", "xorion-privacy
 
 [package]
 name = "xorion-sdk"
-repository = "https://github.com/IDevNation/xorion-web3-os"
+repository = "https://github.com/IDevNation/Xorion-Web3-Beta-Multi-Chain-Wallet-SDK"
 version = "1.0.0"
 edition = "2021"
 description = "Multi-chain wallet SDK for Xorion Web3 OS"
