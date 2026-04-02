@@ -1,5 +1,5 @@
 [package]
-name = "xorion-core"
+name = "xos-core"
 version = "1.0.0"
 edition = "2021"
 description = "X-OS WASM dApp Runtime — sandboxed execution for Web3 dApps"
