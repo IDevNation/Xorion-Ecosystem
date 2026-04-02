@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use std::sync::{Arc, Mutex};
 
-use xorion_sdk::Wallet;
+use xos_sdk::Wallet;
 
 use crate::protocol::{WalletRequest, WalletResponse};
 

@@ -1,6 +1,6 @@
 use ark_bn254::Fr;
 use ark_relations::r1cs::{ConstraintSynthesizer, ConstraintSystem};
-use xorion_zk::{
+use xos_privacy::{
     AgeVerificationCircuit, BalanceProofCircuit, PrivateTxCircuit, ProofCache, ProofSystem,
 };
 

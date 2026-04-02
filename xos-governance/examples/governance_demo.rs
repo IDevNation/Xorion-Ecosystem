@@ -1,6 +1,6 @@
 //! Example: Xorion DAO Governance demo.
 
-use xorion_governance::{
+use xos_governance::{
     DelegationRegistry, GovernorAbi, Proposal, ProposalParams, Timelock, Treasury, VoteType,
 };
 

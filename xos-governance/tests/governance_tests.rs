@@ -1,4 +1,4 @@
-use xorion_governance::{
+use xos_governance::{
     DelegationRegistry, GovernorAbi, Proposal, ProposalParams, ProposalState, Timelock, Treasury,
     VoteType, VotingRecord,
 };

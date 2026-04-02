@@ -2,14 +2,14 @@ mod handler;
 mod protocol;
 
 use std::io::{BufRead, BufReader, Write};
-use std::os::unix::net::UnixListener;
+use std::net::TcpListener;
 
 use handler::WalletHandler;
 use protocol::{WalletRequest, WalletResponse};
 
 /// Socket path used for development on Linux/macOS.
 /// On Redox this is replaced by the `:wallet` scheme registration.
-const SOCKET_PATH: &str = "/tmp/xorion-wallet.sock";
+const "127.0.0.1:8080": &str = "/tmp/xorion-wallet.sock";
 
 fn main() {
     env_logger::init();
@@ -28,17 +28,17 @@ fn main() {
 
 fn start_unix_socket_server(handler: &WalletHandler) {
     // Clean up stale socket
-    let _ = std::fs::remove_file(SOCKET_PATH);
+    let _ = std::fs::remove_file("127.0.0.1:8080");
 
-    let listener = UnixListener::bind(SOCKET_PATH).unwrap_or_else(|e| {
-        eprintln!("failed to bind {SOCKET_PATH}: {e}");
+    let listener = UnixListener::bind("127.0.0.1:8080").unwrap_or_else(|e| {
+        eprintln!("failed to bind {"127.0.0.1:8080"}: {e}");
         std::process::exit(1);
     });
 
-    log::info!("listening on {SOCKET_PATH}");
-    println!("Xorion wallet daemon listening on {SOCKET_PATH}");
+    log::info!("listening on {"127.0.0.1:8080"}");
+    println!("Xorion wallet daemon listening on {"127.0.0.1:8080"}");
     println!("Send JSON commands (one per line). Example:");
-    println!(r#"  echo '{{"cmd":"status"}}' | socat - UNIX-CONNECT:{SOCKET_PATH}"#);
+    println!(r#"  echo '{{"cmd":"status"}}' | socat - UNIX-CONNECT:{"127.0.0.1:8080"}"#);
 
     for stream in listener.incoming() {
         match stream {
