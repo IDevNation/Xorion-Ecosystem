@@ -1,11 +1,11 @@
-echo '[workspace]
+[workspace]
 members = [".", "xos-scheme", "xos-gui", "xos-runtime", "xos-privacy", "xos-storage", "xos-governance"]
 
 [package]
 name = "xos-sdk"
 version = "1.0.0"
 edition = "2021"
-description = "X-OS Web3 SDK"
+description = "X-OS Web3 SDK — Multi-chain wallet, RPC, smart contracts, privacy, storage"
 license = "MIT"
 
 [dependencies]
@@ -23,4 +23,4 @@ reqwest = { version = "0.11", features = ["json"] }
 serde_json = "1.0"
 async-trait = "0.1"
 ethabi = "18.0"
-tiny-keccak = { version = "2.0", features = ["keccak"] }' > Cargo.toml
+tiny-keccak = { version = "2.0", features = ["keccak"] }
