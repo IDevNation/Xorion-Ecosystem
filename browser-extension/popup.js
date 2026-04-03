@@ -1,5 +1,5 @@
-// XOS Wallet - Popup JavaScript
-// Simple Web3 wallet using localStorage for data persistence
+// XOS Wallet - Simple Web3 Wallet Extension
+// Pure JavaScript with chrome.storage.local
 
 // Word list for seed phrase generation (BIP39 simplified)
 const WORD_LIST = [
@@ -169,45 +169,45 @@ const WORD_LIST = [
   'slim', 'slogan', 'slot', 'slow', 'slush', 'small', 'smart', 'smile', 'smoke', 'smooth',
   'snack', 'snake', 'snap', 'sniff', 'snow', 'soap', 'soccer', 'social', 'sock', 'soda',
   'soft', 'solar', 'soldier', 'solid', 'solution', 'solve', 'someone', 'song', 'soon', 'sorry',
-  'sort', 'soul', 'sound', 'soup', 'source', 'south', 'space', 'spare', 'spatial', 'spawn',
-  'speak', 'special', 'speed', 'spell', 'spend', 'sphere', 'spice', 'spider', 'spike', 'spin',
-  'spirit', 'split', 'spoil', 'sponsor', 'spoon', 'sport', 'spot', 'spray', 'spread', 'spring',
-  'spy', 'square', 'squeeze', 'squirrel', 'stable', 'stadium', 'staff', 'stage', 'stairs', 'stamp',
-  'stand', 'start', 'state', 'stay', 'steak', 'steel', 'stem', 'step', 'stereo', 'stick',
-  'still', 'sting', 'stock', 'stomach', 'stone', 'stool', 'story', 'stove', 'strategy', 'street',
-  'strike', 'strong', 'struggle', 'student', 'stuff', 'stumble', 'style', 'subject', 'submit', 'subway',
-  'success', 'such', 'sudden', 'suffer', 'sugar', 'suggest', 'suit', 'summer', 'sun', 'sunny',
-  'sunset', 'super', 'supply', 'supreme', 'sure', 'surface', 'surge', 'surprise', 'surround', 'survey',
-  'suspect', 'sustain', 'swallow', 'swamp', 'swap', 'swarm', 'swear', 'sweet', 'swift', 'swim',
-  'swing', 'switch', 'sword', 'symbol', 'symptom', 'syrup', 'system', 'table', 'tackle', 'tag',
-  'tail', 'talent', 'talk', 'tank', 'tape', 'target', 'task', 'taste', 'taxi', 'teach',
-  'team', 'tell', 'ten', 'tenant', 'tennis', 'tent', 'term', 'test', 'text', 'thank',
-  'that', 'theme', 'then', 'theory', 'there', 'they', 'thing', 'this', 'thought', 'three',
-  'thrive', 'throw', 'thumb', 'thunder', 'ticket', 'tide', 'tiger', 'tilt', 'timber', 'time',
-  'tiny', 'tip', 'tired', 'tissue', 'title', 'toast', 'tobacco', 'today', 'toddler', 'toe',
-  'together', 'toilet', 'token', 'tomato', 'tomorrow', 'tone', 'tongue', 'tonight', 'tool', 'tooth',
-  'top', 'topic', 'topple', 'torch', 'tornado', 'tortoise', 'toss', 'total', 'tourist', 'toward',
-  'tower', 'town', 'toy', 'track', 'trade', 'traffic', 'tragic', 'train', 'transfer', 'trap',
-  'trash', 'travel', 'tray', 'treat', 'tree', 'trend', 'trial', 'tribe', 'trick', 'trigger',
-  'trim', 'trip', 'trophy', 'trouble', 'truck', 'true', 'truly', 'trumpet', 'trust', 'truth',
-  'try', 'tube', 'tuition', 'tumble', 'tuna', 'tunnel', 'turkey', 'turn', 'turtle', 'twelve',
-  'twenty', 'twice', 'twin', 'twist', 'two', 'type', 'typical', 'ugly', 'umbrella', 'unable',
-  'unaware', 'uncle', 'uncover', 'under', 'undo', 'unfair', 'unfold', 'unhappy', 'uniform', 'unique',
-  'unit', 'universe', 'unknown', 'unlock', 'until', 'unusual', 'unveil', 'update', 'upgrade', 'uphold',
-  'upon', 'upper', 'upset', 'urban', 'urge', 'usage', 'use', 'used', 'useful', 'useless',
-  'usual', 'utility', 'vacant', 'vacuum', 'vague', 'valid', 'valley', 'valve', 'van', 'vanish',
-  'vapor', 'various', 'vegan', 'velvet', 'vendor', 'venture', 'venue', 'verb', 'verify', 'version',
-  'very', 'vessel', 'veteran', 'viable', 'vibrant', 'vicious', 'victory', 'video', 'view', 'village',
-  'vintage', 'violin', 'virtual', 'virus', 'visa', 'visit', 'visual', 'vital', 'vivid', 'vocal',
-  'voice', 'void', 'volcano', 'volume', 'vote', 'voyage', 'wage', 'wagon', 'wait', 'walk',
-  'wall', 'walnut', 'want', 'warfare', 'warm', 'warrior', 'wash', 'wasp', 'waste', 'water',
-  'wave', 'way', 'wealth', 'weapon', 'wear', 'weasel', 'weather', 'web', 'wedding', 'weekend',
-  'weird', 'welcome', 'west', 'wet', 'whale', 'what', 'wheat', 'wheel', 'when', 'where',
-  'whip', 'whisper', 'wide', 'width', 'wife', 'wild', 'will', 'win', 'window', 'wine',
-  'wing', 'wink', 'winner', 'winter', 'wire', 'wisdom', 'wise', 'wish', 'witness', 'wolf',
-  'woman', 'wonder', 'wood', 'wool', 'word', 'work', 'world', 'worry', 'worth', 'wrap',
-  'wreck', 'wrestle', 'wrist', 'write', 'wrong', 'yard', 'year', 'yellow', 'you', 'young',
-  'youth', 'zebra', 'zero', 'zone', 'zoo'
+  'sort', 'soul', 'sound', 'soup', 'source', 'south', 'space', 'spare', 'speak', 'special',
+  'speed', 'spell', 'spend', 'sphere', 'spice', 'spider', 'spike', 'spin', 'spirit', 'split',
+  'spoke', 'sponsor', 'spoon', 'sport', 'spot', 'spray', 'spread', 'spring', 'spy', 'square',
+  'squeeze', 'squirrel', 'stable', 'stadium', 'staff', 'stage', 'stairs', 'stamp', 'stand', 'start',
+  'state', 'stay', 'steak', 'steel', 'stem', 'step', 'stereo', 'stick', 'still', 'sting',
+  'stock', 'stomach', 'stone', 'stool', 'story', 'stove', 'strategy', 'street', 'strike', 'strong',
+  'struggle', 'student', 'stuff', 'stumble', 'style', 'subject', 'submit', 'subway', 'success', 'such',
+  'sudden', 'suffer', 'sugar', 'suggest', 'suit', 'summer', 'sun', 'sunny', 'sunset', 'super',
+  'supply', 'supreme', 'sure', 'surface', 'surge', 'surprise', 'surround', 'survey', 'suspect', 'sustain',
+  'swallow', 'swamp', 'swap', 'swear', 'sweet', 'swift', 'swim', 'swing', 'switch', 'sword',
+  'symbol', 'symptom', 'syrup', 'system', 'table', 'tackle', 'tag', 'tail', 'talent', 'talk',
+  'tank', 'tape', 'target', 'task', 'taste', 'tattoo', 'taxi', 'teach', 'team', 'tell',
+  'ten', 'tenant', 'tennis', 'tent', 'term', 'test', 'text', 'thank', 'that', 'theme',
+  'then', 'theory', 'there', 'they', 'thing', 'this', 'thought', 'three', 'thrive', 'throw',
+  'thumb', 'thunder', 'ticket', 'tide', 'tiger', 'tilt', 'timber', 'time', 'tiny', 'tip',
+  'tired', 'tissue', 'title', 'toast', 'tobacco', 'today', 'toddler', 'toe', 'together', 'toilet',
+  'token', 'tomato', 'tomorrow', 'tone', 'tongue', 'tonight', 'tool', 'tooth', 'top', 'topic',
+  'topple', 'torch', 'tornado', 'tortoise', 'toss', 'total', 'tourist', 'toward', 'tower', 'town',
+  'toy', 'track', 'trade', 'traffic', 'tragic', 'train', 'transfer', 'trap', 'trash', 'travel',
+  'tray', 'treat', 'tree', 'trend', 'trial', 'tribe', 'trick', 'trigger', 'trim', 'trip',
+  'trophy', 'trouble', 'truck', 'true', 'truly', 'trumpet', 'trust', 'truth', 'try', 'tube',
+  'tuition', 'tumble', 'tuna', 'tunnel', 'turkey', 'turn', 'turtle', 'twelve', 'twenty', 'twice',
+  'twin', 'twist', 'two', 'type', 'typical', 'ugly', 'umbrella', 'unable', 'unaware', 'uncle',
+  'uncover', 'under', 'undo', 'unfair', 'unfold', 'unhappy', 'uniform', 'unique', 'unit', 'universe',
+  'unknown', 'unlock', 'until', 'unusual', 'unveil', 'update', 'upgrade', 'uphold', 'upon', 'upper',
+  'upset', 'urban', 'urge', 'usage', 'use', 'used', 'useful', 'useless', 'usual', 'utility',
+  'vacant', 'vacuum', 'vague', 'valid', 'valley', 'valve', 'van', 'vanish', 'vapor', 'various',
+  'vegan', 'velvet', 'vendor', 'venture', 'venue', 'verb', 'verify', 'version', 'very', 'vessel',
+  'veteran', 'viable', 'vibrant', 'vicious', 'victory', 'video', 'view', 'village', 'vintage', 'violin',
+  'virtual', 'virus', 'visa', 'visit', 'visual', 'vital', 'vivid', 'vocal', 'voice', 'void',
+  'volcano', 'volume', 'vote', 'voyage', 'wage', 'wagon', 'wait', 'walk', 'wall', 'walnut',
+  'want', 'warfare', 'warm', 'warrior', 'wash', 'wasp', 'waste', 'water', 'wave', 'way',
+  'wealth', 'weapon', 'wear', 'weasel', 'weather', 'web', 'wedding', 'weekend', 'weird', 'welcome',
+  'west', 'wet', 'whale', 'what', 'wheat', 'wheel', 'when', 'where', 'whip', 'whisper',
+  'wide', 'width', 'wife', 'wild', 'will', 'win', 'window', 'wine', 'wing', 'wink',
+  'winner', 'winter', 'wire', 'wisdom', 'wise', 'wish', 'witness', 'wolf', 'woman', 'wonder',
+  'wood', 'wool', 'word', 'work', 'world', 'worry', 'worth', 'wrap', 'wreck', 'wrestle',
+  'wrist', 'write', 'wrong', 'yard', 'year', 'yellow', 'you', 'young', 'youth', 'zebra',
+  'zero', 'zone', 'zoo'
 ];
 
 // Generate random seed phrase
@@ -222,38 +222,33 @@ function generateSeedPhrase() {
 
 // Generate dummy address from seed
 function generateAddress(seed) {
-  // Simple hash-like generation for demo
   let hash = 0;
   for (let i = 0; i < seed.length; i++) {
     hash = ((hash << 5) - hash) + seed.charCodeAt(i);
     hash = hash & hash;
   }
-  const hexHash = Math.abs(hash).toString(16).padStart(8, '0');
-  return '0x' + hexHash + 'xxxx' + 'xxxx' + 'xxxx' + hexHash;
+  const hex = Math.abs(hash).toString(16).padStart(8, '0');
+  return '0x' + hex + '0000' + hex + '0000' + hex + '0000';
 }
 
-// Show/hide screens
+// Show specific screen
 function showScreen(screenId) {
   document.querySelectorAll('.screen').forEach(screen => {
     screen.classList.remove('active');
   });
   document.getElementById(screenId).classList.add('active');
-  
-  // Clear error messages when switching screens
-  document.querySelectorAll('.error').forEach(el => el.textContent = '');
-  document.querySelectorAll('.success').forEach(el => el.textContent = '');
 }
 
 // Initialize wallet state
 async function initWallet() {
-  const walletData = await chrome.storage.local.get(['walletInitialized', 'isLocked']);
+  const data = await chrome.storage.local.get(['isLocked', 'hasWallet']);
   
-  if (!walletData.walletInitialized) {
-    showScreen('welcome-screen');
-  } else if (walletData.isLocked) {
+  if (data.hasWallet && data.isLocked) {
     showScreen('lock-screen');
-  } else {
+  } else if (data.hasWallet) {
     showDashboard();
+  } else {
+    showScreen('welcome-screen');
   }
 }
 
@@ -262,8 +257,11 @@ async function createWallet() {
   const password = document.getElementById('create-password').value;
   const confirmPassword = document.getElementById('confirm-password').value;
   const errorEl = document.getElementById('create-error');
+  const seedDisplay = document.getElementById('seed-display');
   
-  if (password.length < 6) {
+  errorEl.textContent = '';
+  
+  if (!password || password.length < 6) {
     errorEl.textContent = 'Password must be at least 6 characters';
     return;
   }
@@ -273,19 +271,17 @@ async function createWallet() {
     return;
   }
   
-  const seedPhrase = generateSeedPhrase();
+  const seedPhrase = seedDisplay.textContent;
   const address = generateAddress(seedPhrase);
   
   await chrome.storage.local.set({
-    walletInitialized: true,
     seedPhrase: seedPhrase,
-    password: password, // In production, never store plain password!
+    password: password,
     address: address,
-    balance: '1000.00', // Dummy balance
+    balance: '1000.00',
+    hasWallet: true,
     isLocked: false
   });
-  
-  alert('Wallet created successfully!\n\nYour seed phrase:\n' + seedPhrase + '\n\nSave it securely!');
   
   showDashboard();
 }
@@ -296,13 +292,15 @@ async function importWallet() {
   const password = document.getElementById('import-password').value;
   const errorEl = document.getElementById('import-error');
   
+  errorEl.textContent = '';
+  
   const words = seedPhrase.split(/\s+/);
   if (words.length !== 12) {
-    errorEl.textContent = 'Seed phrase must contain exactly 12 words';
+    errorEl.textContent = 'Seed phrase must be exactly 12 words';
     return;
   }
   
-  if (password.length < 6) {
+  if (!password || password.length < 6) {
     errorEl.textContent = 'Password must be at least 6 characters';
     return;
   }
@@ -310,15 +308,13 @@ async function importWallet() {
   const address = generateAddress(seedPhrase);
   
   await chrome.storage.local.set({
-    walletInitialized: true,
     seedPhrase: seedPhrase,
     password: password,
     address: address,
-    balance: '1000.00', // Dummy balance
+    balance: '1000.00',
+    hasWallet: true,
     isLocked: false
   });
-  
-  alert('Wallet imported successfully!\n\nAddress: ' + address);
   
   showDashboard();
 }
@@ -333,6 +329,8 @@ async function lockWallet() {
 async function unlockWallet() {
   const password = document.getElementById('unlock-password').value;
   const errorEl = document.getElementById('unlock-error');
+  
+  errorEl.textContent = '';
   
   const walletData = await chrome.storage.local.get(['password']);
   
@@ -365,24 +363,19 @@ function sendTransaction() {
     return;
   }
   
-  // Dummy transaction
-  alert(`Transaction Sent!\n\nTo: ${recipient}\nAmount: ${amount} XOS\n\nThis is a demo transaction.`);
+  alert('Transaction Sent!\n\nTo: ' + recipient + '\nAmount: ' + amount + ' XOS\n\nThis is a demo transaction.');
   
   statusEl.innerHTML = '<span class="success">Transaction sent successfully!</span>';
   
-  // Clear fields
   document.getElementById('recipient').value = '';
   document.getElementById('amount').value = '';
 }
 
 // Generate seed phrase on create screen load
-document.addEventListener('DOMContentLoaded', () => {
-  // Generate and display seed phrase
-  const seedDisplay = document.getElementById('seed-display');
+document.addEventListener('DOMContentLoaded', function() {
+  var seedDisplay = document.getElementById('seed-display');
   if (seedDisplay) {
     seedDisplay.textContent = generateSeedPhrase();
   }
-  
-  // Initialize wallet state
   initWallet();
 });
