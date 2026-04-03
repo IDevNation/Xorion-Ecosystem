@@ -1,3 +1,4 @@
+#![cfg(not(target_arch = "wasm32"))]
 //! # Xorion SDK
 //!
 //! Multi-chain wallet SDK for the Xorion Web3 OS. Provides HD wallet
