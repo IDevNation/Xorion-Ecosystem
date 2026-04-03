@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <h1>XOS Wallet</h1>
+  <div id="status">Loading...</div>
+  <script src="wasm/xos_sdk.js"></script>
+  <script type="module">
+    import init from './wasm/xos_sdk.js';
+    init().then(() => {
+      document.getElementById('status').innerText = 'WASM Loaded!';
+    }).catch(err => {
+      document.getElementById('status').innerText = 'Error: ' + err;
+    });
+  </script>
+</body>
+</html>

@@ -1,15 +1,9 @@
 {
   "manifest_version": 3,
-  "name": "Xorion Wallet",
+  "name": "XOS Wallet",
   "version": "1.0.0",
-  "description": "Multi-chain Web3 Wallet for Ethereum and Solana powered by xos-sdk",
-  "permissions": ["storage", "alarms", "activeTab"],
-  "host_permissions": ["http://*/*", "https://*/*"],
-  "background": { "service_worker": "background.js" },
+  "permissions": ["storage"],
   "action": {
-    "default_popup": "popup.html",
-    "default_icon": { "16": "assets/icon16.png", "48": "assets/icon48.png", "128": "assets/icon128.png" }
-  },
-  "web_accessible_resources": [{ "resources": ["wasm/*", "injected.js"], "matches": ["^<all_urls^>"] }],
-  "content_scripts": [{ "matches": ["http://*/*", "https://*/*"], "js": ["injected.js"], "run_at": "document_start" }]
+    "default_popup": "popup.html"
+  }
 }
