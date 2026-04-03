@@ -5,11 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>XOS Wallet</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       width: 350px;
@@ -23,59 +19,22 @@
       padding: 20px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     }
-    h1 {
-      text-align: center;
-      color: #667eea;
-      margin-bottom: 20px;
-      font-size: 24px;
-    }
-    h2 {
-      color: #333;
-      font-size: 18px;
-      margin-bottom: 15px;
-    }
-    h3 {
-      color: #667eea;
-      font-size: 16px;
-      margin-bottom: 10px;
-    }
-    .screen {
-      display: none;
-    }
-    .screen.active {
-      display: block;
-    }
-    .form-group {
-      margin-bottom: 15px;
-    }
-    label {
-      display: block;
-      margin-bottom: 5px;
-      color: #333;
-      font-weight: 600;
-      font-size: 14px;
-    }
-    input[type="password"],
-    input[type="text"],
-    textarea {
+    h1 { text-align: center; color: #667eea; margin-bottom: 20px; font-size: 24px; }
+    h2 { color: #333; font-size: 18px; margin-bottom: 15px; }
+    h3 { color: #667eea; font-size: 16px; margin-bottom: 10px; }
+    .screen { display: none; }
+    .screen.active { display: block; }
+    .form-group { margin-bottom: 15px; }
+    label { display: block; margin-bottom: 5px; color: #333; font-weight: 600; font-size: 14px; }
+    input[type="password"], input[type="text"], textarea {
       width: 100%;
       padding: 10px;
       border: 2px solid #ddd;
       border-radius: 8px;
       font-size: 14px;
-      transition: border-color 0.3s;
     }
-    input:focus,
-    textarea:focus {
-      outline: none;
-      border-color: #667eea;
-    }
-    textarea {
-      height: 100px;
-      resize: vertical;
-      font-family: monospace;
-      font-size: 12px;
-    }
+    input:focus, textarea:focus { outline: none; border-color: #667eea; }
+    textarea { height: 100px; resize: vertical; font-family: monospace; font-size: 12px; }
     button {
       width: 100%;
       padding: 12px;
@@ -86,24 +45,11 @@
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
       margin-bottom: 10px;
     }
-    button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-    }
-    button:active {
-      transform: translateY(0);
-    }
-    button.secondary {
-      background: #f0f0f0;
-      color: #333;
-    }
-    button.secondary:hover {
-      background: #e0e0e0;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
+    button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4); }
+    button.secondary { background: #f0f0f0; color: #333; }
+    button.secondary:hover { background: #e0e0e0; }
     .seed-phrase {
       background: #f8f9fa;
       padding: 15px;
@@ -126,16 +72,8 @@
       font-size: 13px;
       text-align: center;
     }
-    .error {
-      color: #dc3545;
-      font-size: 13px;
-      margin-bottom: 10px;
-      text-align: center;
-    }
-    .success {
-      color: #28a745;
-      font-size: 13px;
-    }
+    .error { color: #dc3545; font-size: 13px; margin-bottom: 10px; text-align: center; }
+    .success { color: #28a745; font-size: 13px; }
     .balance {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
@@ -146,17 +84,8 @@
       font-weight: bold;
       margin-bottom: 15px;
     }
-    .dashboard-info {
-      background: #f8f9fa;
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 15px;
-    }
-    .dashboard-info p {
-      color: #666;
-      font-size: 13px;
-      margin-bottom: 5px;
-    }
+    .dashboard-info { background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
+    .dashboard-info p { color: #666; font-size: 13px; margin-bottom: 5px; }
     .address {
       background: white;
       padding: 10px;
@@ -166,34 +95,17 @@
       word-break: break-all;
       border: 1px solid #ddd;
     }
-    .nav-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
-    }
-    .nav-header h2 {
-      margin-bottom: 0;
-    }
-    .lock-btn {
-      background: #dc3545;
-      width: auto;
-      padding: 8px 15px;
-      font-size: 12px;
-      margin: 0;
-    }
-    hr {
-      margin: 15px 0;
-      border: none;
-      border-top: 1px solid #eee;
-    }
+    .nav-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+    .nav-header h2 { margin-bottom: 0; }
+    .lock-btn { background: #dc3545; width: auto; padding: 8px 15px; font-size: 12px; margin: 0; }
+    hr { margin: 15px 0; border: none; border-top: 1px solid #eee; }
   </style>
 </head>
 <body>
   <div class="container">
     <!-- Welcome Screen -->
     <div id="welcome-screen" class="screen active">
-      <h1>🔐 XOS Wallet</h1>
+      <h1>XOS Wallet</h1>
       <button onclick="showScreen('create-wallet-screen')">Create New Wallet</button>
       <button class="secondary" onclick="showScreen('import-wallet-screen')">Import Existing Wallet</button>
     </div>
@@ -204,9 +116,7 @@
         <h2>Create Wallet</h2>
         <button class="lock-btn secondary" onclick="showScreen('welcome-screen')">Back</button>
       </div>
-      <div class="warning">
-        ⚠️ Save your seed phrase securely. Never share it with anyone!
-      </div>
+      <div class="warning">Save your seed phrase securely. Never share it!</div>
       <div class="seed-phrase" id="seed-display">Generating...</div>
       <div class="form-group">
         <label for="create-password">Set Password</label>
@@ -228,7 +138,7 @@
       </div>
       <div class="form-group">
         <label for="import-seed">Seed Phrase (12 words)</label>
-        <textarea id="import-seed" placeholder="Enter your 12-word seed phrase separated by spaces"></textarea>
+        <textarea id="import-seed" placeholder="Enter your 12-word seed phrase"></textarea>
       </div>
       <div class="form-group">
         <label for="import-password">Set Password</label>
@@ -240,7 +150,7 @@
 
     <!-- Lock Screen -->
     <div id="lock-screen" class="screen">
-      <h1>🔒 XOS Wallet Locked</h1>
+      <h1>XOS Wallet Locked</h1>
       <div class="form-group">
         <label for="unlock-password">Enter Password</label>
         <input type="password" id="unlock-password" placeholder="Enter your password">
@@ -275,7 +185,6 @@
       <button onclick="sendTransaction()">Send XOS</button>
     </div>
   </div>
-
   <script src="popup.js"></script>
 </body>
 </html>

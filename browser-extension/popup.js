@@ -1,8 +1,8 @@
 // XOS Wallet - Simple Web3 Wallet Extension
 // Pure JavaScript with chrome.storage.local
 
-// Word list for seed phrase generation (BIP39 simplified)
-const WORD_LIST = [
+// Word list for seed phrase generation
+var WORD_LIST = [
   'abandon', 'ability', 'able', 'about', 'above', 'absent', 'absorb', 'abstract', 'absurd', 'abuse',
   'access', 'accident', 'account', 'accuse', 'achieve', 'acid', 'acoustic', 'acquire', 'across', 'act',
   'action', 'actor', 'actress', 'actual', 'adapt', 'add', 'addict', 'address', 'adjust', 'admit',
@@ -212,9 +212,9 @@ const WORD_LIST = [
 
 // Generate random seed phrase
 function generateSeedPhrase() {
-  const words = [];
-  for (let i = 0; i < 12; i++) {
-    const randomIndex = Math.floor(Math.random() * WORD_LIST.length);
+  var words = [];
+  for (var i = 0; i < 12; i++) {
+    var randomIndex = Math.floor(Math.random() * WORD_LIST.length);
     words.push(WORD_LIST[randomIndex]);
   }
   return words.join(' ');
@@ -222,42 +222,48 @@ function generateSeedPhrase() {
 
 // Generate dummy address from seed
 function generateAddress(seed) {
-  let hash = 0;
-  for (let i = 0; i < seed.length; i++) {
+  var hash = 0;
+  for (var i = 0; i < seed.length; i++) {
     hash = ((hash << 5) - hash) + seed.charCodeAt(i);
     hash = hash & hash;
   }
-  const hex = Math.abs(hash).toString(16).padStart(8, '0');
+  var hex = Math.abs(hash).toString(16).padStart(8, '0');
   return '0x' + hex + '0000' + hex + '0000' + hex + '0000';
 }
 
 // Show specific screen
 function showScreen(screenId) {
-  document.querySelectorAll('.screen').forEach(screen => {
-    screen.classList.remove('active');
-  });
+  var screens = document.querySelectorAll('.screen');
+  for (var i = 0; i < screens.length; i++) {
+    screens[i].classList.remove('active');
+  }
   document.getElementById(screenId).classList.add('active');
 }
 
 // Initialize wallet state
 async function initWallet() {
-  const data = await chrome.storage.local.get(['isLocked', 'hasWallet']);
-  
-  if (data.hasWallet && data.isLocked) {
-    showScreen('lock-screen');
-  } else if (data.hasWallet) {
-    showDashboard();
-  } else {
+  try {
+    var data = await chrome.storage.local.get(['isLocked', 'hasWallet']);
+    
+    if (data.hasWallet && data.isLocked) {
+      showScreen('lock-screen');
+    } else if (data.hasWallet) {
+      showDashboard();
+    } else {
+      showScreen('welcome-screen');
+    }
+  } catch (err) {
+    console.error('Init error:', err);
     showScreen('welcome-screen');
   }
 }
 
 // Create new wallet
 async function createWallet() {
-  const password = document.getElementById('create-password').value;
-  const confirmPassword = document.getElementById('confirm-password').value;
-  const errorEl = document.getElementById('create-error');
-  const seedDisplay = document.getElementById('seed-display');
+  var password = document.getElementById('create-password').value;
+  var confirmPassword = document.getElementById('confirm-password').value;
+  var errorEl = document.getElementById('create-error');
+  var seedDisplay = document.getElementById('seed-display');
   
   errorEl.textContent = '';
   
@@ -271,8 +277,8 @@ async function createWallet() {
     return;
   }
   
-  const seedPhrase = seedDisplay.textContent;
-  const address = generateAddress(seedPhrase);
+  var seedPhrase = seedDisplay.textContent;
+  var address = generateAddress(seedPhrase);
   
   await chrome.storage.local.set({
     seedPhrase: seedPhrase,
@@ -288,13 +294,13 @@ async function createWallet() {
 
 // Import existing wallet
 async function importWallet() {
-  const seedPhrase = document.getElementById('import-seed').value.trim();
-  const password = document.getElementById('import-password').value;
-  const errorEl = document.getElementById('import-error');
+  var seedPhrase = document.getElementById('import-seed').value.trim();
+  var password = document.getElementById('import-password').value;
+  var errorEl = document.getElementById('import-error');
   
   errorEl.textContent = '';
   
-  const words = seedPhrase.split(/\s+/);
+  var words = seedPhrase.split(/\s+/);
   if (words.length !== 12) {
     errorEl.textContent = 'Seed phrase must be exactly 12 words';
     return;
@@ -305,7 +311,7 @@ async function importWallet() {
     return;
   }
   
-  const address = generateAddress(seedPhrase);
+  var address = generateAddress(seedPhrase);
   
   await chrome.storage.local.set({
     seedPhrase: seedPhrase,
@@ -327,12 +333,12 @@ async function lockWallet() {
 
 // Unlock wallet
 async function unlockWallet() {
-  const password = document.getElementById('unlock-password').value;
-  const errorEl = document.getElementById('unlock-error');
+  var password = document.getElementById('unlock-password').value;
+  var errorEl = document.getElementById('unlock-error');
   
   errorEl.textContent = '';
   
-  const walletData = await chrome.storage.local.get(['password']);
+  var walletData = await chrome.storage.local.get(['password']);
   
   if (password === walletData.password) {
     await chrome.storage.local.set({ isLocked: false });
@@ -344,7 +350,7 @@ async function unlockWallet() {
 
 // Show dashboard
 async function showDashboard() {
-  const walletData = await chrome.storage.local.get(['address', 'balance']);
+  var walletData = await chrome.storage.local.get(['address', 'balance']);
   
   document.getElementById('address-display').textContent = walletData.address || 'N/A';
   document.getElementById('balance-display').textContent = (walletData.balance || '0.00') + ' XOS';
@@ -354,9 +360,9 @@ async function showDashboard() {
 
 // Send transaction (dummy)
 function sendTransaction() {
-  const recipient = document.getElementById('recipient').value;
-  const amount = document.getElementById('amount').value;
-  const statusEl = document.getElementById('tx-status');
+  var recipient = document.getElementById('recipient').value;
+  var amount = document.getElementById('amount').value;
+  var statusEl = document.getElementById('tx-status');
   
   if (!recipient || !amount) {
     statusEl.innerHTML = '<span class="error">Please fill in all fields</span>';
