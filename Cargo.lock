@@ -6149,49 +6149,8 @@ dependencies = [
 ]
 
 [[package]]
-name = "xos-governance"
-version = "1.0.0"
-dependencies = [
- "hex",
- "serde",
- "serde_json",
- "sha3",
- "thiserror",
- "tracing",
- "xos-sdk",
-]
-
-[[package]]
-name = "xos-gui"
-version = "1.0.0"
-dependencies = [
- "dioxus",
- "qrcode",
- "serde",
- "serde_json",
- "tokio",
- "xos-sdk",
-]
-
-[[package]]
-name = "xos-scheme"
-version = "1.0.0"
-dependencies = [
- "env_logger",
- "hex",
- "log",
- "serde",
- "serde_json",
- "sha3",
- "thiserror",
- "tokio",
- "tracing",
- "xos-sdk",
-]
-
-[[package]]
-name = "xos-sdk"
-version = "1.0.0"
+name = "xorion-web3-sdk"
+version = "2.0.0"
 dependencies = [
  "async-trait",
  "bip32",
@@ -6215,6 +6174,47 @@ dependencies = [
  "wasm-bindgen",
  "wasm-bindgen-futures",
  "zeroize",
+]
+
+[[package]]
+name = "xos-governance"
+version = "1.0.0"
+dependencies = [
+ "hex",
+ "serde",
+ "serde_json",
+ "sha3",
+ "thiserror",
+ "tracing",
+ "xorion-web3-sdk",
+]
+
+[[package]]
+name = "xos-gui"
+version = "1.0.0"
+dependencies = [
+ "dioxus",
+ "qrcode",
+ "serde",
+ "serde_json",
+ "tokio",
+ "xorion-web3-sdk",
+]
+
+[[package]]
+name = "xos-scheme"
+version = "1.0.0"
+dependencies = [
+ "env_logger",
+ "hex",
+ "log",
+ "serde",
+ "serde_json",
+ "sha3",
+ "thiserror",
+ "tokio",
+ "tracing",
+ "xorion-web3-sdk",
 ]
 
 [[package]]
