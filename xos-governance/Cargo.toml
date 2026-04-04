@@ -6,7 +6,7 @@ description = "X-OS DAO Governance"
 license = "MIT" 
  
 [dependencies] 
-xos-sdk = { version = "1.0.0", path = ".." } 
+xorion-web3-sdk = { version = "1.0.0", path = ".." } 
 serde = { version = "1.0", features = ["derive"] } 
 serde_json = "1.0" 
 thiserror = "1.0" 

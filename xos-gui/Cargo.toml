@@ -6,7 +6,7 @@ description = "X-OS Desktop GUI"
 license = "MIT" 
  
 [dependencies] 
-xos-sdk = { version = "1.0.0", path = ".." } 
+xorion-web3-sdk = { version = "1.0.0", path = ".." } 
 dioxus = { version = "0.5", features = ["desktop"] } 
 qrcode = "0.14" 
 serde = { version = "1.0", features = ["derive"] } 
