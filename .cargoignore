@@ -1,0 +1,14 @@
+﻿target/
+*.pdb
+.git/
+.github/
+browser-extension/
+xos-gui/
+xos-scheme/
+xos-storage/
+xos-governance/
+tests/
+examples/
+*.md
+!README.md
+Cargo.lock
