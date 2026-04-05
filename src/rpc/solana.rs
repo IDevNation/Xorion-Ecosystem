@@ -19,7 +19,7 @@ impl SolanaProvider {
     ///
     /// # Examples
     /// ```no_run
-    /// use crate::rpc::solana::SolanaProvider;
+    /// use xorion_web3_sdk::rpc::solana::SolanaProvider;
     /// let provider = SolanaProvider::new("https://api.devnet.solana.com");
     /// ```
     pub fn new(endpoint: &str) -> Self {

@@ -7,7 +7,7 @@
 //! ## Quick Start
 //!
 //! ```rust
-//! use crate::Wallet;
+//! use xorion_web3_sdk::Wallet;
 //!
 //! let wallet = Wallet::from_mnemonic(
 //!     "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about"
