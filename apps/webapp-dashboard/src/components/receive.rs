@@ -1,71 +1,130 @@
 use dioxus::prelude::*;
 
+use crate::app::{SessionStore, SettingsStore, WalletStore};
+use crate::explorer::build_explorer_links;
+use crate::session::SessionMode;
+
 #[component]
 pub fn ReceiveScreen() -> Element {
-    let eth_address = "0x742d35Cc6634C0532925a3b844Bc9e7595f8bE";
-    let sol_address = "8ZqJzKxVvN9XqPvMxR3hYnFqKjWvLmPsT4uQwEr";
-    let mut selected_chain = use_signal(|| String::from("ethereum"));
+    let settings = use_context::<SettingsStore>();
+    let session = use_context::<SessionStore>();
+    let wallet = use_context::<WalletStore>();
+    let mut status = use_signal(String::new);
+    let address = wallet.read().full_address.clone();
+    let session_value = session.read().clone();
+    let explorer_ready = matches!(
+        session_value.mode,
+        SessionMode::BrowserWallet | SessionMode::ImportedAddress
+    );
+    let explorer_links = build_explorer_links(
+        &settings.read().explorer_url,
+        if explorer_ready { session_value.address.as_deref() } else { None },
+        Some(wallet.read().latest_block.as_str()),
+    );
 
     rsx! {
-        div {
-            style: "padding: 2rem; max-width: 600px; margin: 0 auto;",
-            h2 { style: "margin-bottom: 1.5rem;", "Receive Crypto" }
-            
-            div {
-                class: "card";
-                style: "text-align: center;",
-                
-                label { "Select Chain" }
-                select {
-                    value: "{selected_chain}",
-                    oninput: move |e| selected_chain.set(e.value.clone()),
-                    style: "max-width: 300px;",
-                    option { value: "ethereum", "Ethereum (ETH)" }
-                    option { value: "solana", "Solana (SOL)" }
-                    option { value: "polygon", "Polygon (MATIC)" }
-                    option { value: "bsc", "Binance Smart Chain (BNB)" }
-                }
-
+        div { class: "content-grid",
+            section { class: "topbar",
                 div {
-                    style: "margin: 2rem 0; padding: 2rem; background: #ffffff; border-radius: 12px; display: inline-block;",
-                    // QR Code placeholder - in production, use qrcode-generator crate
+                    p { class: "topbar-eyebrow", "Inbound capital" }
+                    h1 { class: "topbar-title", "Receive into your vault." }
+                    p { class: "topbar-copy",
+                        "Share a clean funding surface, copy the active address, and keep every inbound transfer aligned with your configured network route."
+                    }
+                }
+                div { class: "topbar-side",
+                    div { class: "chip", span { "Network" } strong { "{settings.read().network_label}" } }
+                }
+            }
+
+            div { class: "receive-grid",
+                section { class: "panel-card stack",
                     div {
-                        style: "width: 200px; height: 200px; background: #000; margin: 0 auto; display: flex; align-items: center; justify-content: center;",
-                        span { style: "color: white; font-size: 3rem;", "QR" }
+                        h2 { class: "section-title", "Wallet address" }
+                        p { class: "section-copy", "Use this address for deposits into the current MVP wallet profile." }
+                    }
+
+                    div { class: "receive-address", "{address}" }
+
+                    div { class: "button-row",
+                        button {
+                            class: "copy-button",
+                            onclick: move |_| {
+                                #[cfg(target_arch = "wasm32")]
+                                {
+                                    if let Some(window) = web_sys::window() {
+                                        let clipboard = window.navigator().clipboard();
+                                        let _ = clipboard.write_text(&address);
+                                        status.set("Address copied to clipboard.".to_string());
+                                    } else {
+                                        status.set("Browser clipboard is unavailable.".to_string());
+                                    }
+                                }
+
+                                #[cfg(not(target_arch = "wasm32"))]
+                                {
+                                    status.set("Clipboard is only available in the browser build.".to_string());
+                                }
+                            },
+                            "Copy address"
+                        }
+                        if let Some(address_link) = explorer_links.address.clone() {
+                            a {
+                                class: "ghost-button",
+                                href: "{address_link}",
+                                target: "_blank",
+                                rel: "noopener noreferrer",
+                                "View in explorer"
+                            }
+                        }
+                    }
+
+                    if !status.read().is_empty() {
+                        div { class: "message success", "{status.read()}" }
+                    }
+
+                    if matches!(session_value.mode, SessionMode::PreviewWallet) {
+                        div { class: "trust-note",
+                            "Preview wallet mode is local-only. Copy works for UI review, but explorer verification is intentionally disabled."
+                        }
+                    } else if session_value.address.is_none() {
+                        div { class: "trust-note",
+                            "No live wallet session is connected yet. Use the dashboard to connect a browser wallet or import an address."
+                        }
                     }
                 }
 
-                label { style: "margin-top: 1rem;", "Your Address" }
-                div {
-                    style: "display: flex; gap: 0.5rem; margin-top: 0.5rem;",
-                    input {
-                        r#type: "text",
-                        readonly: true,
-                        value: if *selected_chain.read() == "ethereum" { eth_address } else { sol_address },
-                        style: "flex: 1;",
+                section { class: "panel-card stack",
+                    div {
+                        h2 { class: "section-title", "QR funding panel" }
+                        p { class: "section-copy", "A polished QR placeholder keeps the receive experience investor-ready without heavy extra dependencies." }
                     }
-                    button {
-                        class: "btn-primary";
-                        style: "white-space: nowrap;";
-                        onclick: move |_| {
-                            // Copy to clipboard
-                            let address = if *selected_chain.read() == "ethereum" { eth_address } else { sol_address };
-                            web_sys::window().unwrap().navigator().clipboard().unwrap().write_text(address);
-                        };
-                        "📋 Copy"
+
+                    div { class: "qr-shell",
+                        div { class: "qr-grid",
+                            span { class: "on" } span { class: "on" } span {} span { class: "on" } span {} span { class: "on" } span { class: "on" }
+                            span { class: "on" } span {} span { class: "on" } span {} span { class: "on" } span {} span { class: "on" }
+                            span {} span { class: "on" } span { class: "on" } span {} span { class: "on" } span { class: "on" } span {}
+                            span { class: "on" } span {} span {} span { class: "on" } span {} span {} span { class: "on" }
+                            span {} span { class: "on" } span { class: "on" } span {} span { class: "on" } span { class: "on" } span {}
+                            span { class: "on" } span {} span { class: "on" } span {} span { class: "on" } span {} span { class: "on" }
+                            span { class: "on" } span { class: "on" } span {} span { class: "on" } span {} span { class: "on" } span { class: "on" }
+                        }
                     }
-                }
 
-                p {
-                    style: "color: #a0a0a0; font-size: 0.85rem; margin-top: 1.5rem;",
-                    "⚠️ Only send {selected_chain} tokens to this address. Sending other tokens may result in permanent loss."
-                }
-
-                div {
-                    style: "margin-top: 2rem; padding: 1rem; background: rgba(108, 71, 255, 0.1); border-radius: 8px;",
-                    p { style: "color: #6c47ff; font-weight: 600;", "💡 Pro Tip" }
-                    p { style: "color: #a0a0a0; font-size: 0.9rem; margin-top: 0.5rem;", 
-                        "Always verify the first and last 4 characters of the address before sending funds."
+                    div { class: "detail-list",
+                        div { class: "detail-item", label { "Explorer" } strong { "{settings.read().explorer_url}" } }
+                        div { class: "detail-item", label { "Address label" } strong { "{wallet.read().wallet_name}" } }
+                        div { class: "detail-item", label { "Latest block" } strong { "{wallet.read().latest_block}" } }
+                    }
+                    if explorer_ready {
+                        div { class: "trust-note",
+                            "This address is real for the active wallet session. Use the explorer link for external account verification and future transaction history."
+                        }
+                    } else if explorer_links.home.is_none() {
+                        div { class: "message warn",
+                            "Set a clean explorer base URL in Settings to enable external account verification links."
+                        }
                     }
                 }
             }

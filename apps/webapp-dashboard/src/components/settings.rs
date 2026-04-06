@@ -1,134 +1,135 @@
 use dioxus::prelude::*;
 
+use crate::app::{save_settings, AppSettings, SettingsStore, WalletStore};
+
 #[component]
 pub fn Settings() -> Element {
-    let mut eth_rpc = use_signal(|| String::from("https://eth.llamarpc.com"));
-    let mut sol_rpc = use_signal(|| String::from("https://api.mainnet-beta.solana.com"));
-    let mut ipfs_gateway = use_signal(|| String::from("https://ipfs.io"));
-    let mut dark_mode = use_signal(|| true);
-    let mut notifications = use_signal(|| true);
-    let mut saved = use_signal(|| Option::<String>::None);
+    let mut settings = use_context::<SettingsStore>();
+    let wallet = use_context::<WalletStore>();
+    let initial = settings.read().clone();
+
+    let mut rpc_url = use_signal(|| initial.rpc_url.clone());
+    let mut explorer_url = use_signal(|| initial.explorer_url.clone());
+    let mut environment = use_signal(|| initial.environment.clone());
+    let mut network_label = use_signal(|| initial.network_label.clone());
+    let mut status = use_signal(String::new);
+    let is_valid_url = |value: &str| {
+        let trimmed = value.trim();
+        trimmed.starts_with("http://") || trimmed.starts_with("https://")
+    };
 
     rsx! {
-        div {
-            style: "padding: 2rem; max-width: 600px; margin: 0 auto;",
-            h2 { style: "margin-bottom: 1.5rem;", "Settings" }
-            
-            if let Some(msg) = &*saved.read() {
+        div { class: "content-grid",
+            section { class: "topbar",
                 div {
-                    style: "background: rgba(0, 212, 170, 0.1); border: 1px solid #00d4aa; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;",
-                    p { style: "color: #00d4aa;", "✅ {msg}" }
+                    p { class: "topbar-eyebrow", "Infrastructure settings" }
+                    h1 { class: "topbar-title", "Tune the control plane." }
+                    p { class: "topbar-copy",
+                        "Adjust the RPC and explorer endpoints for the MVP wallet while keeping your network profile visible and easy to trust."
+                    }
+                }
+                div { class: "topbar-side",
+                    div { class: "chip", span { "Session" } strong { "{wallet.read().rpc_state}" } }
                 }
             }
 
-            div {
-                class: "card";
-                
-                h3 { style: "margin-bottom: 1rem; color: #6c47ff;", "🔗 RPC Configuration" }
-                
-                label { "Ethereum RPC URL" }
-                input {
-                    r#type: "text",
-                    value: "{eth_rpc}",
-                    oninput: move |e| eth_rpc.set(e.value.clone()),
-                    placeholder: "https://...",
+            div { class: "settings-grid",
+                section { class: "panel-card",
+                    h2 { class: "section-title", "Endpoint configuration" }
+                    p { class: "section-copy", "These values define how the MVP wallet reads an EVM-compatible RPC and prepares future explorer handoff." }
+
+                    div { class: "field-grid",
+                        div { class: "field-group",
+                            label { class: "field-label", "RPC URL" }
+                            input {
+                                class: "field-input",
+                                r#type: "text",
+                                value: "{rpc_url.read()}",
+                                oninput: move |evt| rpc_url.set(evt.value())
+                            }
+                            p { class: "field-help", "Use an EVM-compatible JSON-RPC endpoint. Non-EVM endpoints will fail safely." }
+                        }
+                        div { class: "field-group",
+                            label { class: "field-label", "Explorer URL" }
+                            input {
+                                class: "field-input",
+                                r#type: "text",
+                                value: "{explorer_url.read()}",
+                                oninput: move |evt| explorer_url.set(evt.value())
+                            }
+                        }
+                        div { class: "two-up",
+                            div { class: "field-group",
+                                label { class: "field-label", "Environment" }
+                                input {
+                                    class: "field-input",
+                                    r#type: "text",
+                                    value: "{environment.read()}",
+                                    oninput: move |evt| environment.set(evt.value())
+                                }
+                            }
+                            div { class: "field-group",
+                                label { class: "field-label", "Network label" }
+                                input {
+                                    class: "field-input",
+                                    r#type: "text",
+                                    value: "{network_label.read()}",
+                                    oninput: move |evt| network_label.set(evt.value())
+                                }
+                            }
+                        }
+                    }
+
+                    div { class: "button-row",
+                        button {
+                            class: "primary-button",
+                            onclick: move |_| {
+                                if !is_valid_url(&rpc_url.read()) {
+                                    status.set("RPC URL must start with http:// or https://".to_string());
+                                    return;
+                                }
+                                if !is_valid_url(&explorer_url.read()) {
+                                    status.set("Explorer URL must start with http:// or https://".to_string());
+                                    return;
+                                }
+                                let next = AppSettings {
+                                    rpc_url: rpc_url.read().clone(),
+                                    explorer_url: explorer_url.read().clone(),
+                                    environment: environment.read().clone(),
+                                    network_label: network_label.read().clone(),
+                                };
+                                settings.set(next.clone());
+                                match save_settings(&next) {
+                                    Ok(_) => status.set("Settings saved for this browser session.".to_string()),
+                                    Err(error) => status.set(error),
+                                }
+                            },
+                            "Save settings"
+                        }
+                    }
+
+                    if !status.read().is_empty() {
+                        div {
+                            class: if status.read().contains("saved") { "message success" } else { "message warn" },
+                            "{status.read()}"
+                        }
+                    }
+
+                    p { class: "settings-note",
+                        "This MVP keeps the settings simple, browser-safe, and easy to demo without pulling in native-only dependencies."
+                    }
                 }
 
-                label { style: "margin-top: 1rem;", "Solana RPC URL" }
-                input {
-                    r#type: "text",
-                    value: "{sol_rpc}",
-                    oninput: move |e| sol_rpc.set(e.value.clone()),
-                    placeholder: "https://...",
-                }
-
-                label { style: "margin-top: 1rem;", "IPFS Gateway" }
-                input {
-                    r#type: "text",
-                    value: "{ipfs_gateway}",
-                    oninput: move |e| ipfs_gateway.set(e.value.clone()),
-                    placeholder: "https://...",
-                }
-
-                h3 { style: "margin: 2rem 0 1rem; color: #6c47ff;", "⚙️ Preferences" }
-                
-                div {
-                    style: "display: flex; align-items: center; justify-content: space-between; margin: 1rem 0;",
+                section { class: "panel-card stack",
                     div {
-                        label { style: "margin: 0;", "🌙 Dark Mode" }
+                        h2 { class: "section-title", "Environment info" }
+                        p { class: "section-copy", "High-level operational data for a confident investor or product demo." }
                     }
-                    input {
-                        r#type: "checkbox",
-                        checked: *dark_mode.read(),
-                        onchange: move |e| dark_mode.set(e.checked),
-                        style: "width: auto; margin: 0;",
-                    }
-                }
-
-                div {
-                    style: "display: flex; align-items: center; justify-content: space-between; margin: 1rem 0;",
-                    div {
-                        label { style: "margin: 0;", "🔔 Notifications" }
-                    }
-                    input {
-                        r#type: "checkbox",
-                        checked: *notifications.read(),
-                        onchange: move |e| notifications.set(e.checked),
-                        style: "width: auto; margin: 0;",
-                    }
-                }
-
-                h3 { style: "margin: 2rem 0 1rem; color: #6c47ff;", "🔐 Security" }
-                
-                button {
-                    class: "btn-primary";
-                    style: "width: 100%; margin: 0.5rem 0; background: #2a2a2a;";
-                    "🔑 Export Private Keys"
-                }
-                
-                button {
-                    class: "btn-primary";
-                    style: "width: 100%; margin: 0.5rem 0; background: #2a2a2a;";
-                    "📄 View Seed Phrase"
-                }
-
-                button {
-                    class: "btn-primary";
-                    style: "width: 100%; margin: 0.5rem 0; background: #ff4757;";
-                    "🗑️ Clear Wallet Data"
-                }
-
-                button {
-                    class: "btn-primary";
-                    style: "width: 100%; margin-top: 1.5rem;";
-                    onclick: move |_| {
-                        saved.set(Some("Settings saved successfully!"));
-                        setTimeout(move || {
-                            saved.set(None);
-                        }, 3000);
-                    };
-                    "💾 Save Settings"
-                }
-            }
-
-            div {
-                class: "card";
-                style: "margin-top: 1.5rem;",
-                h3 { style: "margin-bottom: 1rem;", "ℹ️ About" }
-                p { style: "color: #a0a0a0;", "Xorion Wallet v1.0.0" }
-                p { style: "color: #a0a0a0; font-size: 0.9rem; margin-top: 0.5rem;", 
-                    "The Web3-Native Operating System"
-                }
-                div { style: "margin-top: 1rem; display: flex; gap: 0.5rem;",
-                    a {
-                        href: "https://github.com/IDevNation/Xorion-Web3-Beta-Multi-Chain-Wallet-SDK";
-                        target: "_blank";
-                        button { class: "btn-primary"; style: "background: #2a2a2a; font-size: 0.9rem;", "GitHub" }
-                    }
-                    a {
-                        href: "https://xorion.io";
-                        target: "_blank";
-                        button { class: "btn-primary"; style: "background: #2a2a2a; font-size: 0.9rem;", "Website" }
+                    div { class: "detail-list",
+                        div { class: "detail-item", label { "Wallet profile" } strong { "{wallet.read().wallet_name}" } }
+                        div { class: "detail-item", label { "Network health" } strong { "{wallet.read().network_health}" } }
+                        div { class: "detail-item", label { "Current sync" } strong { "{wallet.read().synced_at}" } }
+                        div { class: "detail-item", label { "Preview mode" } strong { "Browser-first MVP" } }
                     }
                 }
             }
