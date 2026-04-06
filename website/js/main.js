@@ -1,73 +1,98 @@
-// Main JavaScript for X-OS Website
+document.addEventListener("DOMContentLoaded", () => {
+    const navbar = document.querySelector(".navbar");
+    const revealCards = document.querySelectorAll(".reveal-card");
+    const statValues = document.querySelectorAll(".stat-value");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
-
-    // Navbar scroll effect
-    let lastScroll = 0;
-    const navbar = document.querySelector('.navbar');
-
-    window.addEventListener('scroll', () => {
-        const currentScroll = window.pageYOffset;
-        
-        if (currentScroll > 100) {
-            navbar.style.background = 'rgba(10, 10, 10, 0.98)';
-            navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.5)';
+    const applyNavbarState = () => {
+        if (!navbar) return;
+        if (window.scrollY > 20) {
+            navbar.classList.add("scrolled");
         } else {
-            navbar.style.background = 'rgba(10, 10, 10, 0.95)';
-            navbar.style.boxShadow = 'none';
+            navbar.classList.remove("scrolled");
         }
-        
-        lastScroll = currentScroll;
-    });
-
-    // Intersection Observer for fade-in animations
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
     };
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-                observer.unobserve(entry.target);
+    applyNavbarState();
+    window.addEventListener("scroll", applyNavbarState);
+
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", (event) => {
+            const href = anchor.getAttribute("href");
+            if (!href || href === "#") return;
+            const target = document.querySelector(href);
+            if (!target) return;
+            event.preventDefault();
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+    });
+
+    if (!("IntersectionObserver" in window) || reducedMotion) {
+        revealCards.forEach((card) => card.classList.add("revealed"));
+    } else {
+        const revealObserver = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting) return;
+                    entry.target.classList.add("revealed");
+                    revealObserver.unobserve(entry.target);
+                });
+            },
+            { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+        );
+
+        revealCards.forEach((card) => revealObserver.observe(card));
+    }
+
+    const animateValue = (element) => {
+        const raw = Number(element.dataset.count || "0");
+        if (reducedMotion) {
+            const suffix = element.parentElement?.querySelector(".stat-label")?.textContent === "Uptime" ? "%" : "+";
+            element.textContent = suffix === "%" ? `${raw.toFixed(2)}%` : `${Math.round(raw).toLocaleString()}+`;
+            return;
+        }
+
+        const isDecimal = String(element.dataset.count || "").includes(".");
+        const suffix = element.parentElement?.querySelector(".stat-label")?.textContent === "Uptime" ? "%" : "+";
+        const duration = 1200;
+        const start = performance.now();
+
+        const frame = (now) => {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const value = raw * eased;
+
+            if (isDecimal) {
+                element.textContent = `${value.toFixed(2)}${suffix === "%" ? "%" : ""}`;
+            } else {
+                element.textContent = `${Math.round(value).toLocaleString()}${suffix === "+" ? "+" : ""}`;
             }
-        });
-    }, observerOptions);
 
-    // Observe feature cards
-    document.querySelectorAll('.feature-card').forEach(card => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(30px)';
-        card.style.transition = 'all 0.6s ease-out';
-        observer.observe(card);
-    });
+            if (progress < 1) {
+                requestAnimationFrame(frame);
+            } else if (suffix === "+") {
+                element.textContent = `${Math.round(raw).toLocaleString()}+`;
+            }
+        };
 
-    // CTA button hover effect enhancement
-    document.querySelectorAll('.btn').forEach(btn => {
-        btn.addEventListener('mouseenter', function(e) {
-            const rect = btn.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            btn.style.setProperty('--mouse-x', `${x}px`);
-            btn.style.setProperty('--mouse-y', `${y}px`);
-        });
-    });
+        requestAnimationFrame(frame);
+    };
 
-    console.log('🚀 X-OS Website Loaded Successfully!');
+    if (!("IntersectionObserver" in window)) {
+        statValues.forEach((value) => animateValue(value));
+        return;
+    }
+
+    const statObserver = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                animateValue(entry.target);
+                statObserver.unobserve(entry.target);
+            });
+        },
+        { threshold: 0.35 }
+    );
+
+    statValues.forEach((value) => statObserver.observe(value));
 });
