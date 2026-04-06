@@ -1,53 +1,12 @@
 [workspace]
-members = [".", "xos-scheme", "xos-gui", "xos-storage", "xos-governance"]
-
-[package]
-name = "xorion-web3-sdk"
-version = "2.0.0"
-edition = "2021"
-description = "X-OS Web3 SDK"
-license = "MIT"
-
-[dependencies]
-log = "0.4"
-sha3 = "0.10"
-hex = "0.4"
-bip39 = "2.0"
-bip32 = "0.5"
-secp256k1 = { version = "0.28", features = ["rand"] }
-thiserror = "1.0"
-serde = { version = "1.0", features = ["derive"] }
-zeroize = { version = "1.6", features = ["derive"] }
-serde_json = "1.0"
-async-trait = "0.1"
-ethabi = "18.0"
-tiny-keccak = { version = "2.0", features = ["keccak"] }
-getrandom = { version = "0.2", features = ["js"] }
-js-sys = "0.3"
-wasm-bindgen = "0.2"
-wasm-bindgen-futures = "0.4"
-
-# Disable reqwest and tokio for WASM
-[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-reqwest = { version = "0.11", features = ["json"] }
-tokio = { version = "1.35", features = ["full"] }
-env_logger = "0.11"
-
-[target.'cfg(target_arch = "wasm32")'.dependencies]
-# Use browser APIs instead of reqwest
-gloo-net = "0.5"
-
-[dev-dependencies]
-tempfile = "3"
-
-[lib]
-crate-type = ["cdylib", "rlib"]
-
-description = "Xorion Web3 SDK - Multi-chain wallet and dApp development toolkit"
-license = "MIT"
-repository = "https://github.com/IDevNation/Xorion-Web3-Beta-Multi-Chain-Wallet-SDK"
-homepage = "https://github.com/IDevNation/Xorion-Web3-Beta-Multi-Chain-Wallet-SDK"
-documentation = "https://docs.rs/xorion-web3-sdk"
-keywords = ["web3", "blockchain", "wallet", "crypto", "multi-chain"]
-categories = ["cryptography", "web-programming"]
-
+members = [
+    "node",
+    "sdk/wallet-core",
+    "apps/gui",
+    "apps/webapp-dashboard",
+    "modules/governance",
+    "modules/storage",
+    "modules/privacy",
+    "modules/runtime-engine"
+]
+resolver = "2"
