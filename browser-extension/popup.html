@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>XOS Wallet</title>
+<script src="qrcode.min.js"></script>
+<style>
+:root { --bg: #f0f2f5; --card: #ffffff; --text: #333; --sub: #666; --primary: #667eea; --border: #ddd; }
+[data-theme="dark"] { --bg: #1a1a1a; --card: #2d2d2d; --text: #eee; --sub: #aaa; --primary: #8b9cf6; --border: #444; }
+body { font-family: sans-serif; width: 360px; margin: 0; background: var(--bg); color: var(--text); transition: 0.3s; }
+.container { background: var(--card); min-height: 500px; display: flex; flex-direction: column; }
+.header { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid var(--border); }
+.header h1 { margin: 0; font-size: 20px; color: var(--primary); }
+.theme-btn { background: none; border: 1px solid var(--border); color: var(--text); width: 35px; height: 35px; border-radius: 50%; cursor: pointer; font-size: 18px; }
+.content { padding: 20px; flex: 1; }
+h2 { text-align: center; margin-top: 0; }
+button.action { width: 100%; padding: 12px; margin: 8px 0; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; background: var(--primary); color: white; font-weight: bold; }
+button.sec { background: transparent; border: 1px solid var(--border); color: var(--text); }
+input, textarea, select { width: 100%; padding: 12px; margin: 8px 0; background: var(--card); border: 1px solid var(--border); color: var(--text); border-radius: 8px; box-sizing: border-box; }
+.screen { display: none; }
+.active { display: block; }
+.seed-box { background: var(--bg); padding: 15px; border: 1px dashed var(--primary); word-break: break-word; text-align: center; border-radius: 8px; margin: 15px 0; font-size: 13px; }
+.balance-card { background: linear-gradient(135deg, var(--primary), #764ba2); color: white; padding: 25px; text-align: center; border-radius: 12px; margin-bottom: 20px; position: relative; }
+.balance-amt { font-size: 32px; font-weight: bold; }
+.currency-symbol { font-size: 16px; vertical-align: super; opacity: 0.8; }
+.status-badge { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.2); padding: 4px 8px; border-radius: 12px; font-size: 10px; display: flex; align-items: center; gap: 4px; }
+.status-dot { width: 6px; height: 6px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 5px #00ff88; }
+.addr-row { display: flex; justify-content: space-between; align-items: center; background: var(--bg); padding: 10px; border-radius: 8px; margin-bottom: 15px; border: 1px solid var(--border); }
+.addr-txt { font-size: 12px; color: var(--sub); word-break: break-all; flex: 1; margin-right: 10px; }
+.copy-btn { background: var(--primary); color: white; border: none; padding: 5px 10px; border-radius: 4px; font-size: 12px; cursor: pointer; }
+.ctrl-row { display: flex; gap: 10px; margin-bottom: 15px; }
+.ctrl-row select { flex: 1; margin: 0; }
+.ctrl-row button { width: auto; margin: 0; padding: 0 15px; }
+.tx-list { list-style: none; padding: 0; margin-top: 15px; max-height: 150px; overflow-y: auto; }
+.tx-item { background: var(--bg); padding: 10px; border-radius: 8px; margin-bottom: 8px; border-left: 4px solid var(--primary); font-size: 13px; }
+.tx-head { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 4px; }
+.tx-det { font-size: 11px; color: var(--sub); }
+#qrcode { display: flex; justify-content: center; margin: 20px 0; }
+.error-msg { color: #ff4444; text-align: center; font-size: 12px; margin-top: 5px; min-height: 15px; }
+.net-info { text-align: center; margin-bottom: 5px; font-size: 12px; color: var(--sub); }
+.net-name { font-weight: bold; color: var(--primary); text-transform: uppercase; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>XOS Wallet</h1>
+    <button id="theme-toggle" class="theme-btn">🌙</button>
+  </div>
+  <div class="content">
+    
+    <!-- Welcome Screen -->
+    <div id="welcome-screen" class="screen active">
+      <h2>Welcome</h2>
+      <p style="text-align:center;color:var(--sub)">Secure Multi-Chain Wallet</p>
+      <button id="btn-create" class="action">Create New Wallet</button>
+      <button id="btn-import" class="action sec">Import Wallet</button>
+    </div>
+
+    <!-- Create Screen -->
+    <div id="create-screen" class="screen">
+      <h2>Create Wallet</h2>
+      <div class="seed-box" id="seed-display">Generating...</div>
+      <input type="password" id="new-pass" placeholder="Set Password">
+      <input type="password" id="confirm-pass" placeholder="Confirm Password">
+      <button id="btn-save-new" class="action">Create Wallet</button>
+      <button id="btn-back-create" class="action sec">Back</button>
+    </div>
+
+    <!-- Import Screen -->
+    <div id="import-screen" class="screen">
+      <h2>Import Wallet</h2>
+      <textarea id="import-seed-input" rows="4" placeholder="Paste 12-word seed..."></textarea>
+      <input type="password" id="import-pass" placeholder="Set Password">
+      <button id="btn-save-import" class="action">Import Wallet</button>
+      <button id="btn-back-import" class="action sec">Back</button>
+    </div>
+
+    <!-- Lock Screen -->
+    <div id="lock-screen" class="screen">
+      <h2>Wallet Locked</h2>
+      <p style="text-align:center;color:var(--sub)">Enter password to unlock</p>
+      <input type="password" id="unlock-pass" placeholder="Password">
+      <div id="unlock-error" class="error-msg"></div>
+      <button id="btn-unlock" class="action">Unlock</button>
+      <button id="btn-switch" class="action sec" onclick="location.reload()">Switch Wallet</button>
+    </div>
+
+    <!-- Dashboard Screen -->
+    <div id="dashboard-screen" class="screen">
+      <div class="ctrl-row">
+        <select id="wallet-selector"></select>
+        <button id="btn-new-wallet" class="action" style="width:auto">+</button>
+        <button id="btn-delete-wallet" class="action sec" style="width:auto">🗑️</button>
+      </div>
+      
+      <div class="net-info">
+        Network: <span id="network-name" class="net-name">ETHEREUM</span>
+      </div>
+      <select id="network-selector" style="margin-bottom:15px; font-size:12px;">
+        <option value="eth">Ethereum (ETH)</option>
+        <option value="bsc">Binance Smart Chain (BNB)</option>
+        <option value="polygon">Polygon (MATIC)</option>
+        <option value="arbitrum">Arbitrum (ARB)</option>
+        <option value="optimism">Optimism (OP)</option>
+        <option value="xos-mainnet">XOS Mainnet (XOR)</option>
+      </select>
+
+      <div class="balance-card">
+        <div class="status-badge"><div class="status-dot"></div> Active</div>
+        <div class="balance-amt"><span id="balance-display">0.00</span> <span class="currency-symbol">ETH</span></div>
+        <div style="font-size:12px;opacity:0.9;margin-top:5px">Available Balance</div>
+      </div>
+
+      <div class="addr-row">
+        <span id="address-display" class="addr-txt">Loading...</span>
+        <button id="btn-copy" class="copy-btn">Copy</button>
+      </div>
+
+      <button id="btn-receive" class="action sec" style="margin-bottom:15px;">Receive Funds</button>
+
+      <h3 style="border-bottom:1px solid var(--border);padding-bottom:5px">Send Funds</h3>
+      <input type="text" id="send-to" placeholder="Recipient Address">
+      <input type="number" id="send-amt" placeholder="Amount">
+      <button id="btn-send" class="action">Send Transaction</button>
+
+      <h3 style="border-bottom:1px solid var(--border);padding-bottom:5px;margin-top:20px">History</h3>
+      <ul id="tx-list" class="tx-list"><li style="text-align:center;color:var(--sub);font-size:12px;padding:10px;">No transactions</li></ul>
+      
+      <button id="btn-lock" class="action sec" style="margin-top:20px">Lock Wallet</button>
+    </div>
+
+    <!-- Receive Screen -->
+    <div id="receive-screen" class="screen">
+      <h2>Receive Funds</h2>
+      <div id="qrcode"></div>
+      <p style="text-align:center;font-size:12px;color:var(--sub)">Scan QR or copy address below</p>
+      <div class="addr-row">
+        <span id="receive-addr" class="addr-txt">...</span>
+        <button id="btn-copy-recv" class="copy-btn">Copy</button>
+      </div>
+      <button id="btn-back-receive" class="action sec">Back</button>
+    </div>
+
+  </div>
+</div>
+<script src="popup.js"></script>
+</body>
+</html>

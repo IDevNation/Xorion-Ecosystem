@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community - X-OS</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .community-page {
+            padding-top: 120px;
+        }
+        .community-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        .community-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2.5rem;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .community-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-primary);
+            box-shadow: 0 10px 40px rgba(108, 71, 255, 0.2);
+        }
+        .community-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+        }
+        .community-card h3 {
+            font-size: 1.75rem;
+            margin-bottom: 0.75rem;
+        }
+        .community-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        .member-count {
+            display: inline-block;
+            background: var(--bg-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--accent-primary);
+        }
+        .contributions {
+            margin-top: 4rem;
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 3rem;
+            border: 1px solid var(--border-color);
+        }
+        .contribution-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .step {
+            text-align: center;
+        }
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 1rem;
+        }
+        .step h4 {
+            margin-bottom: 0.5rem;
+        }
+        .step p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        .governance-section {
+            margin-top: 4rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(108, 71, 255, 0.1), transparent);
+            border-radius: 16px;
+            padding: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">⬡</span>
+                <span class="logo-text">X-OS</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="features.html">Features</a></li>
+                <li><a href="download.html">Download</a></li>
+                <li><a href="docs.html">Docs</a></li>
+                <li><a href="community.html" class="active">Community</a></li>
+            </ul>
+            <a href="https://webapp.x-os.network" class="btn btn-primary">Try Web App</a>
+        </div>
+    </nav>
+
+    <main class="community-page">
+        <div class="container">
+            <h1 class="hero-title" style="font-size: 3rem;">Join Our Community</h1>
+            <p class="hero-subtitle">Connect with developers, users, and contributors building the future of Web3</p>
+
+            <div class="community-grid">
+                <!-- Discord -->
+                <a href="https://discord.gg/xorion" class="community-card" target="_blank">
+                    <div class="community-icon">💬</div>
+                    <h3>Discord</h3>
+                    <p>Real-time chat with the community. Get help, share ideas, and participate in discussions.</p>
+                    <span class="member-count">👥 5,000+ members</span>
+                </a>
+
+                <!-- Twitter/X -->
+                <a href="https://twitter.com/xorion_os" class="community-card" target="_blank">
+                    <div class="community-icon">🐦</div>
+                    <h3>Twitter / X</h3>
+                    <p>Follow us for latest updates, announcements, and Web3 news.</p>
+                    <span class="member-count">👥 10,000+ followers</span>
+                </a>
+
+                <!-- GitHub -->
+                <a href="https://github.com/IDevNation/X-OS-Web3-Beta-Multi-Chain-Wallet-SDK" class="community-card" target="_blank">
+                    <div class="community-icon">🐙</div>
+                    <h3>GitHub</h3>
+                    <p>Contribute code, report issues, and collaborate on development.</p>
+                    <span class="member-count">⭐ 2,500+ stars</span>
+                </a>
+
+                <!-- Telegram -->
+                <a href="https://t.me/xorion_community" class="community-card" target="_blank">
+                    <div class="community-icon">✈️</div>
+                    <h3>Telegram</h3>
+                    <p>Community-driven discussions, support, and announcements.</p>
+                    <span class="member-count">👥 8,000+ members</span>
+                </a>
+
+                <!-- Reddit -->
+                <a href="https://reddit.com/r/xorion" class="community-card" target="_blank">
+                    <div class="community-icon">📱</div>
+                    <h3>Reddit</h3>
+                    <p>Long-form discussions, tutorials, and community content.</p>
+                    <span class="member-count">👥 3,000+ redditors</span>
+                </a>
+
+                <!-- Forum -->
+                <a href="https://forum.x-os.network" class="community-card" target="_blank">
+                    <div class="community-icon">🏛️</div>
+                    <h3>Official Forum</h3>
+                    <p>Structured discussions, proposals, and governance debates.</p>
+                    <span class="member-count">👥 1,500+ members</span>
+                </a>
+            </div>
+
+            <!-- How to Contribute -->
+            <div class="contributions">
+                <h2 style="text-align: center; margin-bottom: 1rem;">How to Contribute</h2>
+                <p style="text-align: center; color: var(--text-secondary); margin-bottom: 2rem;">
+                    X-OS is open source and community-driven. Here's how you can help:
+                </p>
+                
+                <div class="contribution-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h4>Star the Repo</h4>
+                        <p>Show your support by starring our GitHub repository</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h4>Report Bugs</h4>
+                        <p>Find and report issues to help improve X-OS</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h4>Submit PRs</h4>
+                        <p>Contribute code fixes, features, or documentation</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <h4>Help Others</h4>
+                        <p>Answer questions and support new community members</p>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="https://github.com/IDevNation/X-OS-Web3-Beta-Multi-Chain-Wallet-SDK/blob/main/docs/DEVELOPER_GUIDE.md" class="btn btn-primary">Read Contribution Guide</a>
+                </div>
+            </div>
+
+            <!-- DAO Governance -->
+            <div class="governance-section">
+                <h2 style="margin-bottom: 1rem;">🏛️ DAO Governance</h2>
+                <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto 2rem;">
+                    X-OS is governed by its community through a decentralized autonomous organization. 
+                    Token holders can propose and vote on project decisions.
+                </p>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="https://github.com/IDevNation/X-OS-Web3-Beta-Multi-Chain-Wallet-SDK/blob/main/GOVERNANCE.md" class="btn btn-primary">Learn About Governance</a>
+                    <a href="https://dao.x-os.network" class="btn btn-outline">Visit DAO Portal</a>
+                </div>
+            </div>
+
+            <!-- Events -->
+            <div style="margin-top: 4rem;">
+                <h2 style="text-align: center; margin-bottom: 2rem;">Upcoming Events</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                    <div style="background: var(--bg-card); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <h4 style="color: var(--accent-primary); margin-bottom: 0.5rem;">Weekly Community Call</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">Every Tuesday at 3 PM UTC</p>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem;">Join us for project updates and Q&A</p>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <h4 style="color: var(--accent-primary); margin-bottom: 0.5rem;">Developer Office Hours</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">Every Thursday at 5 PM UTC</p>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem;">Get help with your dApp development</p>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <h4 style="color: var(--accent-primary); margin-bottom: 0.5rem;">Monthly AMA</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">Last Friday of every month</p>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem;">Ask the core team anything</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <span class="logo-icon">⬡</span>
+                        <span class="logo-text">X-OS</span>
+                    </a>
+                    <p>The Web3-Native Operating System</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="features.html">Features</a></li>
+                        <li><a href="download.html">Download</a></li>
+                        <li><a href="https://webapp.x-os.network">Web App</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="docs.html">Documentation</a></li>
+                        <li><a href="https://github.com/IDevNation/X-OS-Web3-Beta-Multi-Chain-Wallet-SDK">GitHub</a></li>
+                        <li><a href="community.html">Community</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="https://github.com/IDevNation/X-OS-Web3-Beta-Multi-Chain-Wallet-SDK/blob/main/CODE_OF_CONDUCT.md">Code of Conduct</a></li>
+                        <li><a href="https://github.com/IDevNation/X-OS-Web3-Beta-Multi-Chain-Wallet-SDK/blob/main/SECURITY.md">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 X-OS. Open Source under MIT License.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

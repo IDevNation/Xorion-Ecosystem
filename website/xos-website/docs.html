@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation - X-OS</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .docs-page {
+            padding-top: 120px;
+        }
+        .docs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        .doc-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .doc-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-primary);
+            box-shadow: 0 10px 30px rgba(108, 71, 255, 0.15);
+        }
+        .doc-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .doc-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+        .doc-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .api-section {
+            margin-top: 4rem;
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 3rem;
+            border: 1px solid var(--border-color);
+        }
+        .api-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .api-item {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-primary);
+        }
+        .api-item code {
+            font-family: 'Courier New', monospace;
+            color: var(--accent-primary);
+            font-size: 0.9rem;
+        }
+        .api-item p {
+            margin-top: 0.75rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">⬡</span>
+                <span class="logo-text">X-OS</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="features.html">Features</a></li>
+                <li><a href="download.html">Download</a></li>
+                <li><a href="docs.html" class="active">Docs</a></li>
+                <li><a href="community.html">Community</a></li>
+            </ul>
+            <a href="https://webapp.x-os.network" class="btn btn-primary">Try Web App</a>
+        </div>
+    </nav>
+
+    <main class="docs-page">
+        <div class="container">
+            <h1 class="hero-title" style="font-size: 3rem;">Documentation</h1>
+            <p class="hero-subtitle">Everything you need to build with X-OS</p>
+
+            <div class="docs-grid">
+                <a href="https://github.com/IDevNation/X-OS-Web3-Beta-Multi-Chain-Wallet-SDK/blob/main/docs/USER_GUIDE.md" class="doc-card" target="_blank">
+                    <div class="doc-icon">📖</div>
+                    <h3>User Guide</h3>
+                    <p>Learn how to use X-OS for everyday tasks: wallet management, transactions, IPFS storage, and more.</p>
+                </a>
+
+                <a href="https://github.com/IDevNation/X-OS-Web3-Beta-Multi-Chain-Wallet-SDK/blob/main/docs/DEVELOPER_GUIDE.md" class="doc-card" target="_blank">
+                    <div class="doc-icon">👨‍💻</div>
+                    <h3>Developer Guide</h3>
+                    <p>Build dApps on X-OS. Setup, tooling, APIs, and best practices for developers.</p>
+                </a>
+
+                <a href="https://github.com/IDevNation/X-OS-Web3-Beta-Multi-Chain-Wallet-SDK/blob/main/docs/TUTORIALS.md" class="doc-card" target="_blank">
+                    <div class="doc-icon">🎓</div>
+                    <h3>Tutorials</h3>
+                    <p>Step-by-step tutorials to get you started with wallets, transactions, smart contracts, and dApps.</p>
+                </a>
+
+                <a href="https://github.com/IDevNation/X-OS-Web3-Beta-Multi-Chain-Wallet-SDK/blob/main/docs/FAQ.md" class="doc-card" target="_blank">
+                    <div class="doc-icon">❓</div>
+                    <h3>FAQ</h3>
+                    <p>Frequently asked questions about X-OS features, security, and troubleshooting.</p>
+                </a>
+
+                <a href="https://github.com/IDevNation/X-OS-Web3-Beta-Multi-Chain-Wallet-SDK/blob/main/API.md" class="doc-card" target="_blank">
+                    <div class="doc-icon">🔌</div>
+                    <h3>API Reference</h3>
+                    <p>Complete API documentation for all X-OS SDK modules and functions.</p>
+                </a>
+
+                <a href="https://github.com/IDevNation/X-OS-Web3-Beta-Multi-Chain-Wallet-SDK/blob/main/ARCHITECTURE.md" class="doc-card" target="_blank">
+                    <div class="doc-icon">🏗️</div>
+                    <h3>Architecture</h3>
+                    <p>Deep dive into X-OS's technical architecture, design decisions, and component interactions.</p>
+                </a>
+            </div>
+
+            <!-- API Quick Reference -->
+            <div class="api-section">
+                <h2 style="margin-bottom: 1rem;">API Quick Reference</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 2rem;">Key APIs available in X-OS SDK</p>
+                
+                <div class="api-grid">
+                    <div class="api-item">
+                        <code>xorion-wallet</code>
+                        <p>Multi-chain wallet management (ETH, SOL, etc.)</p>
+                    </div>
+                    <div class="api-item">
+                        <code>xorion-zk</code>
+                        <p>Zero-knowledge proof generation and verification</p>
+                    </div>
+                    <div class="api-item">
+                        <code>xorion-ipfs</code>
+                        <p>IPFS client for decentralized storage</p>
+                    </div>
+                    <div class="api-item">
+                        <code>xorion-rpc</code>
+                        <p>Blockchain RPC providers (Ethereum, Solana)</p>
+                    </div>
+                    <div class="api-item">
+                        <code>xorion-contract</code>
+                        <p>Smart contract interaction (ERC20, ERC721, Uniswap)</p>
+                    </div>
+                    <div class="api-item">
+                        <code>xorion-gui</code>
+                        <p>Dioxus-based GUI components</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem; text-align: center;">
+                    <a href="https://github.com/IDevNation/X-OS-Web3-Beta-Multi-Chain-Wallet-SDK/blob/main/API.md" class="btn btn-primary">View Full API Docs</a>
+                </div>
+            </div>
+
+            <!-- Code Examples -->
+            <div style="margin-top: 4rem;">
+                <h2 style="text-align: center; margin-bottom: 2rem;">Quick Start Example</h2>
+                <div style="background: var(--bg-secondary); border-radius: 12px; padding: 2rem; overflow-x: auto;">
+                    <pre style="margin: 0; font-family: 'Courier New', monospace; font-size: 0.9rem; line-height: 1.6;"><code style="color: var(--text-primary);"><span style="color: #6c47ff;">use</span> xorion_sdk::wallet::Wallet;
+<span style="color: #6c47ff;">use</span> xorion_sdk::rpc::EthereumProvider;
+
+<span style="color: #8b69ff;">//</span><span style="color: #8b69ff;"> Create a new wallet</span>
+<span style="color: #ffd700;">let</span> wallet = Wallet::new();
+<span style="color: #ffd700;">let</span> mnemonic = wallet.mnemonic();
+
+<span style="color: #8b69ff;">//</span><span style="color: #8b69ff;"> Connect to Ethereum</span>
+<span style="color: #ffd700;">let</span> eth = EthereumProvider::mainnet();
+<span style="color: #ffd700;">let</span> balance = eth.get_balance(wallet.eth_address()).await?;
+
+<span style="color: #8b69ff;">//</span><span style="color: #8b69ff;"> Send a private transaction</span>
+wallet.send_private(eth, recipient, amount).await?;</code></pre>
+                </div>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="https://github.com/IDevNation/X-OS-Web3-Beta-Multi-Chain-Wallet-SDK" class="btn btn-outline">View on GitHub</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <span class="logo-icon">⬡</span>
+                        <span class="logo-text">X-OS</span>
+                    </a>
+                    <p>The Web3-Native Operating System</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="features.html">Features</a></li>
+                        <li><a href="download.html">Download</a></li>
+                        <li><a href="https://webapp.x-os.network">Web App</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="docs.html">Documentation</a></li>
+                        <li><a href="https://github.com/IDevNation/X-OS-Web3-Beta-Multi-Chain-Wallet-SDK">GitHub</a></li>
+                        <li><a href="community.html">Community</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="https://github.com/IDevNation/X-OS-Web3-Beta-Multi-Chain-Wallet-SDK/blob/main/CODE_OF_CONDUCT.md">Code of Conduct</a></li>
+                        <li><a href="https://github.com/IDevNation/X-OS-Web3-Beta-Multi-Chain-Wallet-SDK/blob/main/SECURITY.md">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 X-OS. Open Source under MIT License.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+version: '3.8'
+
+services:
+  # Xorion Development Environment
+  xorion-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: xorion-dev:latest
+    container_name: xorion-dev
+    volumes:
+      # Mount source code for hot reloading
+      - .:/app
+      # Cargo registry cache
+      - cargo-registry:/root/.cargo/registry
+      # Cargo build cache
+      - cargo-target:/app/target
+      # IPFS data directory
+      - ipfs-data:/data/ipfs
+    environment:
+      - RUST_LOG=debug
+      - NETWORK=devnet
+      - ETH_RPC_URL=http://host.docker.internal:8545
+      - SOL_RPC_URL=http://host.docker.internal:8899
+      - IPFS_GATEWAY=http://ipfs:8080
+      - IPFS_API_URL=http://ipfs:5001/api/v0
+      - DATABASE_URL=/data/xorion.db
+      - ZK_CIRCUITS_PATH=/app/circuits
+      - ZK_PROVING_KEYS_PATH=/app/zkeys
+    ports:
+      # GUI debugging port (if needed)
+      - "3000:3000"
+      # API server port
+      - "8080:8080"
+      # Debug port for Rust debugger
+      - "2345:2345"
+    depends_on:
+      - ipfs
+    networks:
+      - xorion-network
+    command: tail -f /dev/null
+    # For development, keep container running
+    # Use `make run-gui` or `make run-demo` inside container
+
+  # IPFS Node for decentralized storage
+  ipfs:
+    image: ipfs/kubo:latest
+    container_name: xorion-ipfs
+    ports:
+      # IPFS HTTP API
+      - "5001:5001"
+      # IPFS Gateway
+      - "8081:8080"
+      # Swarm port (for peer connections)
+      - "4001:4001"
+    volumes:
+      - ipfs-data:/data/ipfs
+    environment:
+      - IPFS_PROFILE=server
+      - LIBP2P_FORCE_PUBKEY_BUILD=0
+    networks:
+      - xorion-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "ipfs", "id"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Local Ethereum node (Anvil/Hardhat)
+  ethereum-node:
+    image: ghcr.io/foundry-rs/foundry:latest
+    container_name: xorion-ethereum
+    ports:
+      - "8545:8545"
+    environment:
+      - ANVIL_IP_ADDR=0.0.0.0
+    networks:
+      - xorion-network
+    command: anvil --host 0.0.0.0 --chain-id 31337 --balance 10000 --accounts 10
+    profiles:
+      - ethereum
+    # Only start when needed with: docker-compose --profile ethereum up
+
+  # Local Solana validator
+  solana-validator:
+    image: solanalabs/solana:latest
+    container_name: xorion-solana
+    ports:
+      - "8899:8899"
+      - "8900:8900"
+    environment:
+      - RUST_LOG=solana_runtime::system_instruction_processor=trace
+    networks:
+      - xorion-network
+    command: solana-test-validator --rpc-port 8899 --reset
+    profiles:
+      - solana
+    # Only start when needed with: docker-compose --profile solana up
+
+  # PostgreSQL for analytics (optional)
+  postgres:
+    image: postgres:16-alpine
+    container_name: xorion-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=xorion
+      - POSTGRES_PASSWORD=xorion_dev_password
+      - POSTGRES_DB=xorion_analytics
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - xorion-network
+    profiles:
+      - analytics
+    # Only start when needed for analytics features
+
+volumes:
+  cargo-registry:
+    name: xorion-cargo-registry
+  cargo-target:
+    name: xorion-cargo-target
+  ipfs-data:
+    name: xorion-ipfs-data
+  postgres-data:
+    name: xorion-postgres-data
+
+networks:
+  xorion-network:
+    driver: bridge
+    name: xorion-network
+
+# Default services to start
+# Run: docker-compose up -d
+# This starts: xorion-dev, ipfs
+# 
+# Additional services:
+# - docker-compose --profile ethereum up -d
+# - docker-compose --profile solana up -d
+# - docker-compose --profile analytics up -d
